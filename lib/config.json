@@ -6,7 +6,7 @@
             "path": "/ok",
             "GET": {
                 "type": "http",
-                "params": [200,"OK"]
+                "params": [404,"Not Found"]
             },
             "POST": {
                 "type": "http",
@@ -14,11 +14,11 @@
             },
             "PUT": {
                 "type": "http",
-                "params": [400,"Not Found"]
+                "params": [404,"Not Found"]
             },
             "DELETE": {
                 "type": "http",
-                "params": [400,"Not Found"]
+                "params": [404,"Not Found"]
             }
         },
         {
