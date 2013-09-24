@@ -2,6 +2,16 @@
     "services": [
         {
             "name": "Simple HTTP listener",
+			"description" : "Returns a 200 ok response",
+            "types": ["GET","POST","DELETE","PUT"],
+            "path": "/ok",
+            "response": {
+                "type": "ok"
+            }
+        },
+        {
+            "name": "Simple ECHO HTTP listener",
+			"description" : "Echoes the request body for POST/PUT, and the requested URL for GET/DELETE",
             "types": ["GET","POST","DELETE","PUT"],
             "path": "/hello",
             "response": {

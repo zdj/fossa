@@ -45,41 +45,52 @@ var server = http.createServer(app);
 app.get('/', routes.index);
 
 conf['services'].forEach(function (service) {
-    console.log(('Creating service listener: ' + service['name']).blue);    
+    console.log(('Creating service listener: ' + service['name']).blue);  
+	var description = service['description']; 
+	if(description) {
+		console.log(('  Description: ').white + description.cyan);  		
+	} 
     var path = service['path'];
-    console.log('  ' + ('Path: ').cyan + path.yellow);
+    console.log(('  Path: ').white + path.yellow);
     var responseType = service['response']['type'].toLowerCase();
-    console.log('  ' + ('Response Type: ').cyan + responseType.yellow);    
+    console.log(('  Response Type: ').white + responseType.yellow);    
 
     function sendResponse(req, res, data) {
-        res.setHeader('Content-Type', req.header("Content-Type"));
-        res.setHeader('Content-Length', data.length);
+		var contentType = req.header("Content-Type");
+		if(contentType) {			
+			res.setHeader('Content-Type', contentType);
+		} else {
+			res.setHeader('Content-Type', 'text/plain');
+		}
+		if(data) {			
+			res.setHeader('Content-Length', data.length);	
+		}
         res.send(data);
     }
 	
-	console.log('  ' + ("Types:").cyan + JSON.stringify(service['types']).toUpperCase().yellow);
+	console.log(("  Types:").white + JSON.stringify(service['types']).toUpperCase().yellow);
 	
 	service['types'].forEach(function(type) {
 		
 		type = type.toUpperCase();
 
 	    if (type == 'GET') {
-		    var response = require('./lib/responses/' + responseType).get;
+		    var response = require('./lib/scripts/' + responseType).get;
 	        app.get(path, function (req, res) {
 	            response(req,res,sendResponse);
 	        });
 	    } else if (type == 'POST') {
-		    response = require('./lib/responses/' + responseType).post;
+		    response = require('./lib/scripts/' + responseType).post;
 	        app.post(path, function (req, res) {
 	            response(req,res,sendResponse);
 	        });
 	    } else if (type == 'DELETE') {
-		    response = require('./lib/responses/' + responseType).delete;
+		    response = require('./lib/scripts/' + responseType).delete;
 	        app.delete(path, function (req, res) {
 	            response(req,res,sendResponse);
 	        });
 	    } else if (type == 'PUT') {
-		    response = require('./lib/responses/' + responseType).put;
+		    response = require('./lib/scripts/' + responseType).put;
 	        app.put(path, function (req, res) {
 	            response(req,res,sendResponse);
 	        });
