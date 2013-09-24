@@ -2,19 +2,30 @@
     "services": [
         {
             "name": "Simple HTTP listener",
-			"description" : "Returns a 200 ok response",
-            "types": ["GET","POST","DELETE","PUT"],
+			"description" : "Returns the supplied status code and response message",
             "path": "/ok",
-            "response": {
-                "type": "ok"
+            "GET": {
+                "type": "http",
+                "params": [200,"OK"]
+            },
+            "POST": {
+                "type": "http",
+                "params": [200,"OK"]
+            },
+            "PUT": {
+                "type": "http",
+                "params": [400,"Not Found"]
+            },
+            "DELETE": {
+                "type": "http",
+                "params": [400,"Not Found"]
             }
         },
         {
             "name": "Simple ECHO HTTP listener",
 			"description" : "Echoes the request body for POST/PUT, and the requested URL for GET/DELETE",
-            "types": ["GET","POST","DELETE","PUT"],
-            "path": "/hello",
-            "response": {
+            "path": "/echo",
+            "ALL": {
                 "type": "echo"
             }
         }
