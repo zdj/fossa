@@ -1,16 +1,8 @@
 {
     "services": [
         {
-            "name": "Simple HTTP GET listener",
-            "type": "GET",
-            "path": "/hello",
-            "response": {
-                "type": "echo"
-            }
-        },
-        {
-            "name": "Simple HTTP POST listener",
-            "type": "POST",
+            "name": "Simple HTTP listener",
+            "types": ["GET","POST","DELETE","PUT"],
             "path": "/hello",
             "response": {
                 "type": "echo"

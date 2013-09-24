@@ -9,19 +9,6 @@ var path = require('path');
 var conf = require('./lib/config.json');
 var colors = require('colors');
 
-colors.setTheme({
-    silly: 'rainbow',
-    input: 'grey',
-    verbose: 'cyan',
-    prompt: 'grey',
-    info: 'green',
-    data: 'grey',
-    help: 'cyan',
-    warn: 'yellow',
-    debug: 'blue',
-    error: 'red'
-});
-
 var app = express();
 
 function anyBodyParser(req, res, next) {
@@ -58,33 +45,50 @@ var server = http.createServer(app);
 app.get('/', routes.index);
 
 conf['services'].forEach(function (service) {
-    console.log(('Creating service listener: ' + service['name']).info);
-    var type = service['type'].toUpperCase();
-    console.log('\t' + ('Type: ' + type.toUpperCase()).verbose);
+    console.log(('Creating service listener: ' + service['name']).blue);    
     var path = service['path'];
-    console.log('\t' + ('Path: ' + path).verbose);
+    console.log('  ' + ('Path: ').cyan + path.yellow);
     var responseType = service['response']['type'].toLowerCase();
-    console.log('\t' + ('Response Type: ' + responseType).verbose);
-    console.log();
+    console.log('  ' + ('Response Type: ').cyan + responseType.yellow);    
 
     function sendResponse(req, res, data) {
         res.setHeader('Content-Type', req.header("Content-Type"));
         res.setHeader('Content-Length', data.length);
         res.send(data);
     }
+	
+	console.log('  ' + ("Types:").cyan + JSON.stringify(service['types']).toUpperCase().yellow);
+	
+	service['types'].forEach(function(type) {
+		
+		type = type.toUpperCase();
 
-    if (type == 'GET') {
-	    var response = require('./lib/responses/' + responseType).get;
-        app.get(path, function (req, res) {
-            response(req,res,sendResponse);
-        });
-    } else if (type == 'POST') {
-	    response = require('./lib/responses/' + responseType).post;
-        app.post(path, function (req, res) {
-            response(req,res,sendResponse);
-        });
-    }
+	    if (type == 'GET') {
+		    var response = require('./lib/responses/' + responseType).get;
+	        app.get(path, function (req, res) {
+	            response(req,res,sendResponse);
+	        });
+	    } else if (type == 'POST') {
+		    response = require('./lib/responses/' + responseType).post;
+	        app.post(path, function (req, res) {
+	            response(req,res,sendResponse);
+	        });
+	    } else if (type == 'DELETE') {
+		    response = require('./lib/responses/' + responseType).delete;
+	        app.delete(path, function (req, res) {
+	            response(req,res,sendResponse);
+	        });
+	    } else if (type == 'PUT') {
+		    response = require('./lib/responses/' + responseType).put;
+	        app.put(path, function (req, res) {
+	            response(req,res,sendResponse);
+	        });
+	    }
+	});	 
+	
+	console.log();  
 });
+
 server.listen(app.get('port'), function () {
     console.log('Express server listening on port ' + app.get('port'));
 });
