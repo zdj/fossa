@@ -1,4 +1,3 @@
-
 /**
  * Module dependencies.
  */
@@ -7,7 +6,7 @@ var express = require('express');
 var routes = require('./routes');
 var http = require('http');
 var path = require('path');
-var conf = require('./conf/config.json');
+var conf = require('./lib/config.json');
 var colors = require('colors');
 
 colors.setTheme({
@@ -25,27 +24,40 @@ colors.setTheme({
 
 var app = express();
 
+function anyBodyParser(req, res, next) {
+    var data = '';
+    req.setEncoding('utf8');
+    req.on('data', function(chunk) {
+        data += chunk;
+    });
+    req.on('end', function() {
+        req.rawBody = data;
+        next();
+    });
+}
+
+
 // all environments
 app.set('port', process.env.PORT || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.use(express.favicon());
 app.use(express.logger('dev'));
-app.use(express.bodyParser());
+app.use(anyBodyParser);
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
 // development only
 if ('development' == app.get('env')) {
-  app.use(express.errorHandler());
+    app.use(express.errorHandler());
 }
 
 var server = http.createServer(app);
 
 app.get('/', routes.index);
 
-conf['services'].forEach(function(service) {
+conf['services'].forEach(function (service) {
     console.log(('Creating service listener: ' + service['name']).info);
     var type = service['type'].toUpperCase();
     console.log('\t' + ('Type: ' + type.toUpperCase()).verbose);
@@ -55,28 +67,24 @@ conf['services'].forEach(function(service) {
     console.log('\t' + ('Response Type: ' + responseType).verbose);
     console.log();
 
-    function sendResponse(req,res,data) {
-        res.setHeader('Content-Type', req.contentType);
+    function sendResponse(req, res, data) {
+        res.setHeader('Content-Type', req.header("Content-Type"));
         res.setHeader('Content-Length', data.length);
         res.send(data);
     }
 
-    if(type == 'GET') {
-        if(responseType == 'echo') {
-            app.get(path, function(req, res){
-                var data = req.url;
-                sendResponse(req,res,data);
-            });
-        }
-    } else if(type == 'POST') {
-        if(responseType == 'echo') {
-            app.post(path, function(req, res){
-                var data = req.body;
-                sendResponse(req,res,data);
-            });
-        }
+    if (type == 'GET') {
+	    var response = require('./lib/responses/' + responseType).get;
+        app.get(path, function (req, res) {
+            response(req,res,sendResponse);
+        });
+    } else if (type == 'POST') {
+	    response = require('./lib/responses/' + responseType).post;
+        app.post(path, function (req, res) {
+            response(req,res,sendResponse);
+        });
     }
 });
-server.listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
+server.listen(app.get('port'), function () {
+    console.log('Express server listening on port ' + app.get('port'));
 });
