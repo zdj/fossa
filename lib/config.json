@@ -28,6 +28,15 @@
             "ALL": {
                 "type": "echo"
             }
+        },
+        {
+            "name": "Simple Redirect HTTP listener",
+			"description" : "Redirects the caller to the supplied URL",
+            "path": "/redirect",
+            "ALL": {
+                "type": "redirect",
+				"params" : ["http://google.com"]
+            }
         }
     ]
 }
