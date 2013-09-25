@@ -9,7 +9,6 @@
     "express": "3.4.0",
     "jade": "*",
     "colors": "*",
-    "async": "*",
-    "amqp": "*"
+	"amqp": "*"
   }
 }

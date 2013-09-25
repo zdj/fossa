@@ -14,7 +14,7 @@
             },
             "PUT": {
                 "type": "http",
-                "params": [404,"Not Found"]
+                "params": [200,"OK"]
             },
             "DELETE": {
                 "type": "http",
@@ -36,6 +36,15 @@
             "ALL": {
                 "type": "redirect",
 				"params" : ["http://google.com"]
+            }
+        },
+        {
+            "name": "Simple AMQP Message Creator",
+			"description" : "Creates a message in the specified queue",
+            "path": "/message/create",
+            "POST": {
+                "type": "amqp_message",
+				"params" : ["127.0.0.1","my_exhange"]
             }
         }
     ]
