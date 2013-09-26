@@ -21,7 +21,10 @@
                 "type": "http",
                 "params": {
                     "statusCode": 200,
-                    "responseMessage": "OK"
+                    "response": {
+						"response":"OK"
+					},
+					"contentType": "application/json; charset=UTF-8"
                 }
             },
             "DELETE": {
@@ -29,6 +32,19 @@
                 "params": {
                     "statusCode": 404,
                     "responseMessage": "Not Found"
+                }
+            }
+        },
+        {
+            "name": "HTTP File listener",
+            "description": "Returns the supplied status code and response message",
+            "path": "/http/file",
+            "GET": {
+                "type": "http",
+                "params": {
+                    "statusCode": 404,
+                    "file": "hello.txt",
+					"contentType": "text/plain"
                 }
             }
         },
