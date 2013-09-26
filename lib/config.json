@@ -68,7 +68,36 @@
             }
         },
         {
-            "name": "RabbitMQ/AMQP Exchange Creator",
+            "name": "RabbitMQ (AMQP) VHost Creator",
+            "description" : "Creates a vhost",
+            "path": "/amqp/vhost",
+            "PUT": {
+                "type": "amqp_vhost",
+                "params" : {
+                    "host": "127.0.0.1",
+					"port": 15672,
+					"user": "admin:admin",
+					"vhost": "syndication"
+                }
+            }
+        },
+        {
+            "name": "RabbitMQ (AMQP) VHost User Permissions",
+            "description" : "Gives a user vhost permissions",
+            "path": "/amqp/vhost/user",
+            "POST": {
+                "type": "amqp_vhost_user",
+                "params" : {
+                    "host": "127.0.0.1",
+					"port": 15672,
+					"user": "admin:admin",
+					"vhost": "syndication",
+					"username": "admin"
+                }
+            }
+        },
+        {
+            "name": "RabbitMQ (AMQP) Exchange Creator",
             "description" : "Creates an exchange on the specified vhost",
             "path": "/amqp/exchange",
             "PUT": {
@@ -83,7 +112,39 @@
             }
         },
         {
-            "name": "RabbitMQ/AMQP Message Publisher",
+            "name": "RabbitMQ (AMQP) Queue Creator",
+            "description" : "Creates a queue on the specified vhost",
+            "path": "/amqp/queue",
+            "PUT": {
+                "type": "amqp_queue",
+                "params" : {
+                    "host": "127.0.0.1",
+					"port": 15672,
+					"user": "admin:admin",
+					"vhost": "syndication",
+                    "queue": "syndicated.content"
+                }
+            }
+        },
+        {
+            "name": "RabbitMQ (AMQP) Exchange->Queue Binding",
+            "description" : "Binds a queue to an exchange using the specified routing key",
+            "path": "/amqp/bind",
+            "POST": {
+                "type": "amqp_bind",
+                "params" : {
+                    "host": "127.0.0.1",
+					"port": 15672,
+					"user": "admin:admin",
+					"vhost": "syndication",
+					"exchange": "syndication",
+                    "queue": "syndicated.content",
+					"routingKey": "update"
+                }
+            }
+        },
+        {
+            "name": "RabbitMQ (AMQP) Message Publisher",
             "description" : "Publishes a message on the specified vhost/exchange",
             "path": "/amqp/publish",
             "POST": {
@@ -96,6 +157,24 @@
                     "exchange": "syndication",
                     "routingKey": "update",
 					"payload": "Hello!",
+					"payloadEncoding": "string"
+                }
+            }
+        },
+        {
+            "name": "RabbitMQ (AMQP) File Message Publisher",
+            "description" : "Publishes a message on the specified vhost/exchange",
+            "path": "/amqp/publish/file",
+            "POST": {
+                "type": "amqp_publish",
+                "params" : {
+                    "host": "127.0.0.1",
+					"port": 15672,
+					"user": "admin:admin",
+					"vhost": "syndication",
+                    "exchange": "syndication",
+                    "routingKey": "update",
+					"file": "hello.txt",
 					"payloadEncoding": "string"
                 }
             }
