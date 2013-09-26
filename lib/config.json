@@ -3,22 +3,22 @@
         {
             "name": "HTTP listener",
             "description": "Returns the supplied status code and response message",
-            "path": "/http",
+            "type": "http",
             "GET": {
-                "type": "http",
+				"path": "/http",
                 "params": {
                     "statusCode": 404,
                     "response": "Not Found"
                 }
             },
             "POST": {
-                "type": "http",
+				"path": "/http",
                 "params": {
                     "statusCode": 204
                 }
             },
             "PUT": {
-                "type": "http",
+				"path": "/http",
                 "params": {
                     "statusCode": 200,
                     "response": {
@@ -28,7 +28,7 @@
                 }
             },
             "DELETE": {
-                "type": "http",
+				"path": "/http",
                 "params": {
                     "statusCode": 404,
                     "response": "Not Found"
@@ -36,11 +36,11 @@
             }
         },
         {
-            "name": "HTTP File listener",
-            "description": "Returns the supplied status code and response message",
-            "path": "/http/file",
+            "name": "File HTTP listener",
+            "description": "Returns the supplied status code and file-based response message",
+            "type": "http",
             "GET": {
-                "type": "http",
+				"path": "/http/file",
                 "params": {
                     "statusCode": 404,
                     "file": "hello.txt",
@@ -51,17 +51,17 @@
         {
             "name": "Echo HTTP listener",
             "description": "Echoes the request body for POST/PUT, and the requested URL for GET/DELETE",
-            "path": "/echo",
+            "type": "echo",
             "ALL": {
-                "type": "echo"
+	            "path": "/echo"
             }
         },
         {
             "name": "Redirect HTTP listener",
             "description": "Redirects the caller to the supplied URL",
-            "path": "/redirect",
+            "type": "redirect",
             "ALL": {
-                "type": "redirect",
+                "path": "/redirect",
                 "params": {
                     "url": "http://google.com"
                 }
@@ -70,9 +70,9 @@
         {
             "name": "RabbitMQ (AMQP) VHost Creator",
             "description" : "Creates a vhost",
-            "path": "/amqp/vhost",
+			"type": "amqp_vhost",
             "PUT": {
-                "type": "amqp_vhost",
+	            "path": "/amqp/vhost",
                 "params" : {
                     "host": "127.0.0.1",
 					"port": 15672,
@@ -84,9 +84,9 @@
         {
             "name": "RabbitMQ (AMQP) VHost User Permissions",
             "description" : "Gives a user vhost permissions",
-            "path": "/amqp/vhost/user",
+            "type": "amqp_vhost_user",
             "POST": {
-                "type": "amqp_vhost_user",
+	            "path": "/amqp/vhost/user",
                 "params" : {
                     "host": "127.0.0.1",
 					"port": 15672,
@@ -99,9 +99,9 @@
         {
             "name": "RabbitMQ (AMQP) Exchange Creator",
             "description" : "Creates an exchange on the specified vhost",
-            "path": "/amqp/exchange",
+            "type": "amqp_exchange",
             "PUT": {
-                "type": "amqp_exchange",
+	            "path": "/amqp/exchange",
                 "params" : {
                     "host": "127.0.0.1",
 					"port": 15672,
@@ -114,9 +114,9 @@
         {
             "name": "RabbitMQ (AMQP) Queue Creator",
             "description" : "Creates a queue on the specified vhost",
-            "path": "/amqp/queue",
+            "type": "amqp_queue",
             "PUT": {
-                "type": "amqp_queue",
+	            "path": "/amqp/queue",
                 "params" : {
                     "host": "127.0.0.1",
 					"port": 15672,
@@ -129,9 +129,9 @@
         {
             "name": "RabbitMQ (AMQP) Exchange->Queue Binding",
             "description" : "Binds a queue to an exchange using the specified routing key",
-            "path": "/amqp/bind",
+            "type": "amqp_bind",
             "POST": {
-                "type": "amqp_bind",
+	            "path": "/amqp/bind",
                 "params" : {
                     "host": "127.0.0.1",
 					"port": 15672,
@@ -146,9 +146,9 @@
         {
             "name": "RabbitMQ (AMQP) Message Publisher",
             "description" : "Publishes a message on the specified vhost/exchange",
-            "path": "/amqp/publish",
+            "type": "amqp_publish",
             "POST": {
-                "type": "amqp_publish",
+	            "path": "/amqp/publish",
                 "params" : {
                     "host": "127.0.0.1",
 					"port": 15672,
@@ -164,9 +164,9 @@
         {
             "name": "RabbitMQ (AMQP) File Message Publisher",
             "description" : "Publishes a message on the specified vhost/exchange",
-            "path": "/amqp/publish/file",
+            "type": "amqp_publish",
             "POST": {
-                "type": "amqp_publish",
+	            "path": "/amqp/publish/file",
                 "params" : {
                     "host": "127.0.0.1",
 					"port": 15672,
