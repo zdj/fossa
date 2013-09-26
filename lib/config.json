@@ -8,7 +8,7 @@
                 "type": "http",
                 "params": {
                     "statusCode": 404,
-                    "responseMessage": "Not Found"
+                    "response": "Not Found"
                 }
             },
             "POST": {
@@ -31,7 +31,7 @@
                 "type": "http",
                 "params": {
                     "statusCode": 404,
-                    "responseMessage": "Not Found"
+                    "response": "Not Found"
                 }
             }
         },
