@@ -1,7 +1,7 @@
 {
     "services": [
         {
-            "name": "Simple HTTP listener",
+            "name": "HTTP listener",
             "description": "Returns the supplied status code and response message",
             "path": "/http",
             "GET": {
@@ -49,7 +49,7 @@
             }
         },
         {
-            "name": "Simple ECHO HTTP listener",
+            "name": "Echo HTTP listener",
             "description": "Echoes the request body for POST/PUT, and the requested URL for GET/DELETE",
             "path": "/echo",
             "ALL": {
@@ -57,7 +57,7 @@
             }
         },
         {
-            "name": "Simple Redirect HTTP listener",
+            "name": "Redirect HTTP listener",
             "description": "Redirects the caller to the supplied URL",
             "path": "/redirect",
             "ALL": {
@@ -68,8 +68,23 @@
             }
         },
         {
-            "name": "Simple RabbitMQ Message Publisher",
-            "description" : "Publishes a message on the specified exchange",
+            "name": "RabbitMQ/AMQP Exchange Creator",
+            "description" : "Creates an exchange on the specified vhost",
+            "path": "/amqp/exchange",
+            "PUT": {
+                "type": "amqp_exchange",
+                "params" : {
+                    "host": "127.0.0.1",
+					"port": 15672,
+					"user": "admin:admin",
+					"vhost": "syndication",
+                    "exchange": "syndication"
+                }
+            }
+        },
+        {
+            "name": "RabbitMQ/AMQP Message Publisher",
+            "description" : "Publishes a message on the specified vhost/exchange",
             "path": "/amqp/publish",
             "POST": {
                 "type": "amqp_publish",
