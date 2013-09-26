@@ -2,28 +2,39 @@
     "services": [
         {
             "name": "Simple HTTP listener",
-			"description" : "Returns the supplied status code and response message",
-            "path": "/ok",
+            "description": "Returns the supplied status code and response message",
+            "path": "/http",
             "GET": {
                 "type": "http",
-                "params": [404,"Not Found"]
+                "params": {
+                    "statusCode": 404,
+                    "responseMessage": "Not Found"
+                }
             },
             "POST": {
                 "type": "http",
-                "params": [200,"OK"]
+                "params": {
+                    "statusCode": 204
+                }
             },
             "PUT": {
                 "type": "http",
-                "params": [200,"OK"]
+                "params": {
+                    "statusCode": 200,
+                    "responseMessage": "OK"
+                }
             },
             "DELETE": {
                 "type": "http",
-                "params": [404,"Not Found"]
+                "params": {
+                    "statusCode": 404,
+                    "responseMessage": "Not Found"
+                }
             }
         },
         {
             "name": "Simple ECHO HTTP listener",
-			"description" : "Echoes the request body for POST/PUT, and the requested URL for GET/DELETE",
+            "description": "Echoes the request body for POST/PUT, and the requested URL for GET/DELETE",
             "path": "/echo",
             "ALL": {
                 "type": "echo"
@@ -31,20 +42,31 @@
         },
         {
             "name": "Simple Redirect HTTP listener",
-			"description" : "Redirects the caller to the supplied URL",
+            "description": "Redirects the caller to the supplied URL",
             "path": "/redirect",
             "ALL": {
                 "type": "redirect",
-				"params" : ["http://google.com"]
+                "params": {
+                    "url": "http://google.com"
+                }
             }
         },
         {
-            "name": "Simple AMQP Message Creator",
-			"description" : "Creates a message in the specified queue",
-            "path": "/message/create",
+            "name": "Simple RabbitMQ Message Publisher",
+            "description" : "Publishes a message on the specified exchange",
+            "path": "/amqp/publish",
             "POST": {
-                "type": "amqp_message",
-				"params" : ["127.0.0.1","my_exhange"]
+                "type": "amqp_publish",
+                "params" : {
+                    "host": "127.0.0.1",
+					"port": 15672,
+					"user": "admin:admin",
+					"vhost": "syndication",
+                    "exchange": "syndication",
+                    "routingKey": "update",
+					"payload": "Hello!",
+					"payloadEncoding": "string"
+                }
             }
         }
     ]

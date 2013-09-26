@@ -28,11 +28,11 @@ Running `npm start` will create the following REST services:
 
 	Creating service listener: Simple HTTP listener
 	  Description: Returns the supplied status code and response message
-	 Context Path: /ok
-	          GET: http  [404,"Not Found"]
-	         POST: http  [200,"OK"]
-	       DELETE: http  [404,"Not Found"]
-	          PUT: http  [404,"Not Found"]
+	 Context Path: /http
+	          GET: http
+	         POST: http
+	       DELETE: http
+	          PUT: http
 
 	Creating service listener: Simple ECHO HTTP listener
 	  Description: Echoes the request body for POST/PUT, and the requested URL for GET/DELETE
@@ -45,39 +45,55 @@ Running `npm start` will create the following REST services:
 	Creating service listener: Simple Redirect HTTP listener
 	  Description: Redirects the caller to the supplied URL
 	 Context Path: /redirect
-	          GET: redirect  ["http://google.com"]
-	         POST: redirect  ["http://google.com"]
-	       DELETE: redirect  ["http://google.com"]
-	          PUT: redirect  ["http://google.com"]
+	          GET: redirect
+	         POST: redirect
+	       DELETE: redirect
+	          PUT: redirect
+
+	Creating service listener: Simple RabbitMQ Message Publisher
+	  Description: Publishes a message on the specified exchange
+	 Context Path: /amqp/publish
+	         POST: amqp_publish
 
 **lib/config.js** 
 
 	{
-    	"services": [
-        	{
-            	"name": "Simple HTTP listener",
-				"description" : "Returns the supplied status code and response message",
-            	"path": "/ok",
+	    "services": [
+	        {
+	            "name": "Simple HTTP listener",
+	            "description": "Returns the supplied status code and response message",
+	            "path": "/http",
 	            "GET": {
-    	            "type": "http",
-        	        "params": [404,"Not Found"]
-            	},
+	                "type": "http",
+	                "params": {
+	                    "statusCode": 404,
+	                    "responseMessage": "Not Found"
+	                }
+	            },
 	            "POST": {
 	                "type": "http",
-	                "params": [200,"OK"]
+	                "params": {
+	                    "statusCode": 204
+	                }
 	            },
 	            "PUT": {
 	                "type": "http",
-	                "params": [404,"Not Found"]
+	                "params": {
+	                    "statusCode": 200,
+	                    "responseMessage": "OK"
+	                }
 	            },
 	            "DELETE": {
 	                "type": "http",
-	                "params": [404,"Not Found"]
+	                "params": {
+	                    "statusCode": 404,
+	                    "responseMessage": "Not Found"
+	                }
 	            }
 	        },
 	        {
 	            "name": "Simple ECHO HTTP listener",
-				"description" : "Echoes the request body 	for POST/PUT, and the requested URL for GET/DELETE",
+	            "description": "Echoes the request body for POST/PUT, and the requested URL for GET/DELETE",
 	            "path": "/echo",
 	            "ALL": {
 	                "type": "echo"
@@ -85,15 +101,35 @@ Running `npm start` will create the following REST services:
 	        },
 	        {
 	            "name": "Simple Redirect HTTP listener",
-				"description" : "Redirects the caller to the supplied URL",
+	            "description": "Redirects the caller to the supplied URL",
 	            "path": "/redirect",
 	            "ALL": {
 	                "type": "redirect",
-					"params" : ["http://google.com"]
+	                "params": {
+	                    "url": "http://google.com"
+	                }
+	            }
+	        },
+	        {
+	            "name": "Simple RabbitMQ Message Publisher",
+	            "description" : "Publishes a message on the specified exchange",
+	            "path": "/amqp/publish",
+	            "POST": {
+	                "type": "amqp_publish",
+	                "params" : {
+	                    "host": "127.0.0.1",
+						"port": 15672,
+						"user": "admin:admin",
+						"vhost": "syndication",
+	                    "exchange": "syndication",
+	                    "routingKey": "update",
+						"payload": "Hello!",
+						"payloadEncoding": "string"
+	                }
 	            }
 	        }
 	    ]
-	}
+	}	
 	
 Adding Custom Services
 ----------------------
@@ -101,13 +137,14 @@ Adding Custom Services
 Custom 'services' can be installed by creating or dropping in new javascript files in the `lib/services` directory that ahere to the following specification:
 
   * HTTP GET, POST, PUT or DELETE services specified in `lib/config.js` must have a corresponding function exported where the function's name is the lowercase HTTP verb (*for HTTP GET, the function name would be 'get'*).
+  
   * The function must have the following signature:
   		
   		function(req, res, cb)
 
   * The callback provided to this function does not need to be called, but if called, it should be called like the following:
   
-  		cb(req,res,responseMessage, statusCode);
+  		cb(req, res, responseMessage, statusCode);
   		
   	where the *responseMessage* is 	the data to be included in the response body, and the *statusCode* is the HTTP status code to be returned with the response.
 
