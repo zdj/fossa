@@ -136,7 +136,7 @@ Adding Custom Services
 
 Custom 'services' can be installed by creating or dropping in new javascript files in the `lib/services` directory that ahere to the following specification:
 
-  * HTTP GET, POST, PUT or DELETE services specified in `lib/config.js` must have a corresponding function exported where the function's name is the lowercase HTTP verb (*for HTTP GET, the function name would be 'get'*).
+  * HTTP GET, POST, PUT or DELETE services specified in `lib/config.js` must have a corresponding function exported where the function's name is the lowercase HTTP verb **(for HTTP GET, the function name would be 'get')**.
   
   * The function must have the following signature:
   		
