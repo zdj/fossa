@@ -68,6 +68,22 @@
             }
         },
         {
+            "name": "RabbitMQ (AMQP) User Creator",
+            "description" : "Creates a user",
+			"type": "amqp_user",
+            "PUT": {
+	            "path": "/amqp/user",
+                "params" : {
+                    "host": "127.0.0.1",
+					"port": 15672,
+					"user": "admin:admin",
+					"username": "admin",
+					"password": "admin",
+					"tag": "administrator"
+                }
+            }
+        },
+        {
             "name": "RabbitMQ (AMQP) VHost Creator",
             "description" : "Creates a vhost",
 			"type": "amqp_vhost",
