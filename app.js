@@ -43,8 +43,11 @@ var server = http.createServer(app);
 
 app.get('/', routes.index);
 
-fossa.loadScripts(app);
-
-server.listen(app.get('port'), function () {
-    console.log('Express server listening on port ' + app.get('port'));
+fossa.loadServices(app, function(serviceCount) {
+	console.log(('Created ' + serviceCount + ' services using lib/config.json').yellow.bold);
+	console.log();
+	server.listen(app.get('port'), function () {
+	    console.log('Express server listening on port ' + app.get('port'));
+	});
 });
+
