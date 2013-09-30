@@ -7,8 +7,8 @@
             "GET": {
 				"path": "/http",
                 "params": {
-                    "statusCode": 404,
-                    "response": "Not Found"
+                    "statusCode": 200,
+                    "response": "Hello!"
                 }
             },
             "POST": {

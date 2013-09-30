@@ -1,4 +1,5 @@
 var assert = require("assert");
+var _ = require("underscore");
 var fossa = require("../lib/fossa");
 
 describe('Fossa Config Test', function() {
@@ -13,7 +14,10 @@ describe('Fossa Config Test', function() {
 	describe('loadServices using default config.json', function() {
 		it('should create 21 services', function(done) {
 			assert.equal(21, serviceCount);
-			assert.equal(21, services.length);
+			assert.equal(4, _.keys(services['GET']).length);
+			assert.equal(7, _.keys(services['POST']).length);
+			assert.equal(7, _.keys(services['PUT']).length);
+			assert.equal(3, _.keys(services['DELETE']).length);
 			done();
 		})
 		it('should create http services', function(done) {
@@ -22,20 +26,37 @@ describe('Fossa Config Test', function() {
 	})
 })
 
-var services = [];
+var req = new Object();
+var res = new Object();
+
+var services = {
+	"GET": [
+	],
+	"POST": [
+	],
+	"PUT": [
+	],
+	"DELETE": [
+	]		
+};
 
 var app = new function() {
-	this.get = function(get,service){
-		services.push(service);
+	
+	this.get = function(path,service){
+		services['GET'][path] = service;
 	};
-	this.post = function(get,service){
-		services.push(service);
+	
+	this.post = function(path,service){
+		services['POST'][path] = service;
 	};
-	this.put = function(get,service){
-		services.push(service);
+	
+	this.put = function(path,service){
+		services['PUT'][path] = service;
 	};
-	this.delete = function(get,service){
-		services.push(service);
+	
+	this.delete = function(path,service){
+		services['DELETE'][path] = service;
 	};
-	this.all = function(get,service){};
+	
+	this.all = function(path,service){};
 }

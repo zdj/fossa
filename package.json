@@ -10,6 +10,7 @@
     "express": "*",
     "jade": "*",
     "colors": "*",
-    "mocha": "*"
+    "mocha": "*",
+	"underscore": "*"
   }
 }
