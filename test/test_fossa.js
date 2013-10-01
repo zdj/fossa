@@ -20,14 +20,8 @@ describe('Fossa Config Test', function() {
 			assert.equal(3, _.keys(services['DELETE']).length);
 			done();
 		})
-		it('should create http services', function(done) {
-			done();
-		})
 	})
 })
-
-var req = new Object();
-var res = new Object();
 
 var services = {
 	"GET": [
