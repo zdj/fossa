@@ -61,24 +61,6 @@ describe('Http Service Test', function() {
 				done();
 			});
 		})
-	}),
-	describe('GET with file response', function() {
-		it('should return HTTP 200 "Hello from a file!"', function(done) {
-
-			http.put({}, {
-				set: function(headerKey, headerValue) {
-					assert.equal('Content-Type', headerKey);
-					assert.equal('text/plain', headerValue);
-				}
-			}, {
-				"statusCode": 200,
-				"file": "hello.txt",
-				"contentType": "text/plain"
-			}, function(req, res, data, statusCode) {
-				assert.equal(200, statusCode);
-				assert.equal('Hello from a file!', new String(data));
-				done();
-			});
-		})
 	})
 })
+
