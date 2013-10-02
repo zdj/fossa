@@ -42,7 +42,7 @@
             "GET": {
 				"path": "/http/file",
                 "params": {
-                    "statusCode": 404,
+                    "statusCode": 200,
                     "file": "hello.txt",
 					"contentType": "text/plain"
                 }
