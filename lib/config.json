@@ -1,7 +1,7 @@
 {
     "services": [
         {
-            "name": "HTTP listener",
+            "name": "HTTP service",
             "description": "Returns the supplied status code and response message",
             "type": "http",
             "GET": {
@@ -36,7 +36,7 @@
             }
         },
         {
-            "name": "File HTTP listener",
+            "name": "File HTTP service",
             "description": "Returns the supplied status code and file-based response message",
             "type": "http",
             "GET": {
@@ -49,7 +49,7 @@
             }
         },
         {
-            "name": "Echo HTTP listener",
+            "name": "Echo service",
             "description": "Echoes the request body for POST/PUT, and the requested URL for GET/DELETE",
             "type": "echo",
             "ALL": {
@@ -57,7 +57,18 @@
             }
         },
         {
-            "name": "Redirect HTTP listener",
+            "name": "Redirect service",
+            "description": "Redirects the caller to the supplied URL",
+            "type": "redirect",
+            "ALL": {
+                "path": "/redirect",
+                "params": {
+                    "url": "http://google.com"
+                }
+            }
+        },
+        {
+            "name": "Capture service",
             "description": "Redirects the caller to the supplied URL",
             "type": "redirect",
             "ALL": {
