@@ -23,7 +23,9 @@
 				"response": {
 					"response": "OK"
 				},
-				"contentType": "application/json; charset=UTF-8"
+				"headers": {
+					"Content-Type": "application/json; charset=UTF-8"
+				}
 			}
 		},
 		"DELETE": {
@@ -42,7 +44,9 @@
 			"params": {
 				"statusCode": 200,
 				"file": "hello.txt",
-				"contentType": "text/plain"
+				"headers": {
+					"Content-Type": "text/plain"
+				}				
 			}
 		}
 	}, {
@@ -75,7 +79,9 @@
 					"response": {
 						"yes": "please"
 					},
-					"contentType": "application/json; charset=UTF-8"
+					"headers": {
+						"Content-Type": "application/json; charset=UTF-8"
+					}					
 				}, {
 					"string": "?peanutButter",
 					"statusCode": 204
