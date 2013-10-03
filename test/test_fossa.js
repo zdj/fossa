@@ -12,11 +12,11 @@ describe('Fossa Config Test', function() {
 	});
 	
 	describe('loadServices using default config.json', function() {
-		it('should create 21 services', function(done) {
-			assert.equal(21, serviceCount);
-			assert.equal(4, _.keys(services['GET']).length);
-			assert.equal(7, _.keys(services['POST']).length);
-			assert.equal(7, _.keys(services['PUT']).length);
+		it('should create 24 services', function(done) {
+			assert.equal(24, serviceCount);
+			assert.equal(5, _.keys(services['GET']).length);
+			assert.equal(8, _.keys(services['POST']).length);
+			assert.equal(8, _.keys(services['PUT']).length);
 			assert.equal(3, _.keys(services['DELETE']).length);
 			done();
 		})

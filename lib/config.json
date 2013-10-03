@@ -108,16 +108,6 @@
 			}
 		}
 	}, {
-		"name": "Capture service",
-		"description": "Redirects the caller to the supplied URL",
-		"type": "redirect",
-		"ALL": {
-			"path": "/redirect",
-			"params": {
-				"url": "http://google.com"
-			}
-		}
-	}, {
 		"name": "RabbitMQ (AMQP) User Creator",
 		"description": "Creates a user",
 		"type": "amqp_user",
