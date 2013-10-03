@@ -64,22 +64,20 @@
 		}
 	}, {
 		"name": "Match service",
-		"description": "Responds conditionally based on finding a query parameter or search string in the request body ",
+		"description": "Responds conditionally based on a matching url string, body string or header key/value",
 		"type": "match",
 		"GET": {
 			"path": "/match",
 			"params": {
-				"queryMatch": [{
-					"key": "ham",
-					"value": "cheese",
+				"urlMatch": [{
+					"string": "ham=cheese",
 					"statusCode": 200,
 					"response": {
 						"yes": "please"
 					},
 					"contentType": "application/json; charset=UTF-8"
 				}, {
-					"key": "chicken",
-					"value": "marsala",
+					"string": "?peanutButter",
 					"statusCode": 204
 				}]
 			}
@@ -95,6 +93,17 @@
 					"string": "baconLettuceAndTomato",
 					"statusCode": 200,
 					"response": "yes please!"
+				}]
+			}
+		},
+		"PUT": {
+			"path": "/match",
+			"params": {
+				"headerMatch": [{
+					"key": "Ham",
+					"value": "Cheese",
+					"statusCode": 200,
+					"file": "hello.txt"
 				}]
 			}
 		}
