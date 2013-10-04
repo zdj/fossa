@@ -43,7 +43,7 @@
 			"path": "/http/file",
 			"params": {
 				"statusCode": 200,
-				"file": "hello.txt",
+				"file": "lots_of.txt",
 				"headers": {
 					"Content-Type": "text/plain"
 				}				

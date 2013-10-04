@@ -11,6 +11,7 @@
     "jade": "*",
     "colors": "*",
     "mocha": "*",
-	"underscore": "*"
+	"underscore": "*",
+	"async": "*"
   }
 }

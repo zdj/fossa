@@ -1,6 +1,9 @@
 extends layout
 
 block content
-  h1= title
+  div.page-header
+    h1 Fossa Simulator Dashboard
   p
-      img(src="images/fossa.png")
+    if services
+      include http
+      
