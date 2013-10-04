@@ -1,129 +1,66 @@
 var conf = require('../lib/config.json');
 var fs = require('fs');
 var async = require('async');
-var util = require('util');
+var _ = require('underscore');
+require('colors');
 
-exports.index = function(req, res) {
-	
-	var restServices = {};	
-	
-	async.each(conf['services'], function(service, cb) {		
-		addServices(service, restServices, function(err) {
-			cb(err);
-		});							
-	}, 
-	function(err){			
-		res.render('index', {
-			title: 'Fossa Simulator',
-			services: restServices,
-			host: req['headers']['host']
-		});
-	});	
-	
-	function addServices(service, restServices, cb) {
-		
-		if (service['type'] == 'http') {
-			
-			if(!restServices['http']) {
-				restServices['http'] = [];
-			}
-			
-			async.series([
-			    function(callback){
-			        httpService(service['GET'], 'GET', function(restService) {
-						if(restService) {
-							restServices['http'].push(restService);
-						}
-						callback();
-			        });
-			    },
-			    function(callback){
-			        httpService(service['POST'], 'POST', function(restService) {
-						if(restService) {
-							restServices['http'].push(restService);
-						}		
-						callback();				
-			        });			        
-			    },
-			    function(callback){
-			        httpService(service['PUT'], 'PUT', function(restService) {
-						if(restService) {
-							restServices['http'].push(restService);
-						}	
-						callback();					
-			        });			        
-			    },
-			    function(callback){
-			        httpService(service['DELETE'], 'DELETE', function(restService) {
-						if(restService) {
-							restServices['http'].push(restService);
-						}	
-						callback();					
-			        });			        
-			    }
-			],
-			function(err, results){
-				if(err) {
-					cb(err);
-				} else {
-					cb();
-				}
-			});
-		} else {
-			cb();
-		}
-	}
-	
-	function httpService(service, method, cb) {
-		
-		if(service) {			
-			
-			var restService = {					
-				path: service['path'],
-				method: method,
-				status: '',
-				contentType: '',
-				response: ''
-			}
-		
-			var params = service['params'];
-			
-			if(params) {
-				
-				var statusCode = params['statusCode'];
-				if(statusCode) {
-					restService['status'] = statusCode;
-				}
-				
-				var headers = params['headers'];
-				if(headers) {
-					var contentType = headers['Content-Type'];
-					if(contentType) {
-						restService['contentType'] = contentType;
-					}
-				}
-				
-				if(params['response']) {
-					var response = JSON.stringify(params['response']);
-					restService['response'] = response;
-					cb(restService);
-				} else if(params['file']) {
-					fs.readFile('./lib/files/' + params['file'], function (err, data) {
-						if (err) {
-							cb(err);
-						} else {
-							restService['response'] = data;
-							cb(restService);
-						}
-					});
-				} else {
-					cb(restService);
-				}
-			} else {
-				cb(restService);
-			}
-		} else {
-			cb();
-		}		
-	}
-}
+exports.index = function (req, res) {
+
+    var jadeContext = {
+        title: 'Fossa Simulator',
+        services: {},
+        host: req['headers']['host']
+    };
+
+    var restServices = {};
+
+    async.eachLimit(conf['services'], 1, function (service, cb) {
+            addRestServices(service, restServices, function (err) {
+                jadeContext['services'] = restServices;
+                cb(err);
+            });
+        },
+        function (err) {
+
+            if (err) {
+                console.log('index.js - '.red.bold + err.toString().red);
+            }
+
+            res.render('index', jadeContext);
+        });
+
+    function addRestServices(fossaService, restServices, cb) {
+
+        var serviceType = fossaService['type'];
+
+        try {
+            var jadeContextBuilder = require('../lib/services/ui/' + serviceType);
+        } catch (err) {
+            console.log('index.js - '.red.bold + err.toString().red);
+        }
+
+        if(jadeContextBuilder) {
+            if (!restServices[serviceType]) {
+                restServices[serviceType] = [];
+            }
+
+            async.eachLimit(['GET', 'PUT', 'POST', 'DELETE'], 1, function (method, _cb) {
+                jadeContextBuilder.buildJadeContext(fossaService[method], method, function (err, restService) {
+                    if (err) {
+                        _cb(err);
+                    } else {
+                        if (restService) {
+                            restServices[serviceType].push(restService);
+                        }
+                        _cb(null);
+                    }
+                });
+            },
+            function (err) {
+                cb(err);
+            });
+        } else {
+            cb(null);
+        }
+    }
+};

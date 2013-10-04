@@ -1,56 +1,28 @@
 h3 Http Services
 table.table.table-bordered.table-condensed
-  col(style='width: 20em;')
-  col
-  col(style='width: 4em;')
-  col(style='width: 8em;')
-  col(style='width: 6em;')
-  thead
-    tr(style='background-color: Black;')
-      th(style='color: WhiteSmoke; text-align:center;') URL
-      th(style='color: WhiteSmoke; text-align:center;') Response
-      th(style='color: WhiteSmoke; text-align:center;') Status
-      th(style='color: WhiteSmoke; text-align:center;') Content Type
-      th(style='color: WhiteSmoke; text-align:center;') Method
-  tbody
-    each service in services['http']                                            
-      if(service.method == 'GET')
-        tr.success
-          td(style='vertical-align: middle;') 
-            a(href='http://#{host}#{service.path}') http://#{host}#{service.path}
-          td
-            textarea(style='width: 97%; height: 7em;', disabled) #{service.response}
-          td(style='vertical-align: middle; text-align:center;') #{service.status}
-          td(style='vertical-align: middle; text-align:center;') #{service.contentType}
-          td(style='vertical-align: middle;') 
-            input.btn.btn-success.btn-block(type='submit',value='#{service.method}')
-      else if(service.method == 'POST')
-        tr.info
-          td(style='vertical-align: middle;') 
-            a(href='http://#{host}#{service.path}') http://#{host}#{service.path}          
-          td
-            textarea(style='width: 97%; height: 7em;', disabled) #{service.response}   
-          td(style='vertical-align: middle; text-align:center;') #{service.status}      
-          td(style='vertical-align: middle; text-align:center;') #{service.contentType}               
-          td(style='vertical-align: middle;') 
-            input.btn.btn-info.btn-block(type='submit',value='#{service.method}')
-      else if(service.method == 'PUT')
-        tr.warning
-          td(style='vertical-align: middle;') 
-            a(href='http://#{host}#{service.path}') http://#{host}#{service.path}          
-          td
-            textarea(style='width: 97%; height: 7em;', disabled) #{service.response}  
-          td(style='vertical-align: middle; text-align:center;') #{service.status} 
-          td(style='vertical-align: middle; text-align:center;') #{service.contentType}     
-          td(style='vertical-align: middle;') 
-            input.btn.btn-warning.btn-block(type='submit',value='#{service.method}')
-      else if(service.method == 'DELETE')
-        tr.error
-          td(style='vertical-align: middle;') 
-            a(href='http://#{host}#{service.path}') http://#{host}#{service.path}          
-          td
-            textarea(style='width: 97%; height: 7em;', disabled) #{service.response}
-          td(style='vertical-align: middle; text-align:center;') #{service.status}
-          td(style='vertical-align: middle; text-align:center;') #{service.contentType}
-          td(style='vertical-align: middle;') 
-            input.btn.btn-danger.btn-block(type='submit',value='#{service.method}')
+    col(style='width: 20em;')
+    col
+    col(style='width: 4em;')
+    col(style='width: 8em;')
+    col(style='width: 6em;')
+    thead
+        tr(style='background-color: Black;')
+            th(style='color: WhiteSmoke; text-align:center;') URL
+            th(style='color: WhiteSmoke; text-align:center;') Response
+            th(style='color: WhiteSmoke; text-align:center;') Status
+            th(style='color: WhiteSmoke; text-align:center;') Content Type
+            th(style='color: WhiteSmoke; text-align:center;') Method
+    tbody
+        each service in services['http']
+            if(service.method == 'GET')
+                tr.success
+                    include http_table_cols
+            else if(service.method == 'POST')
+                tr.info
+                    include http_table_cols
+            else if(service.method == 'PUT')
+                tr.warning
+                    include http_table_cols
+            else if(service.method == 'DELETE')
+                tr.error
+                    include http_table_cols

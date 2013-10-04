@@ -1,0 +1,15 @@
+td(style='vertical-align: middle;')
+    a(href='http://#{host}#{service.path}') http://#{host}#{service.path}
+    td
+        textarea(style='width: 97%; height: 7em;', disabled) #{service.response}
+    td(style='vertical-align: middle; text-align:center;') #{service.status}
+    td(style='vertical-align: middle; text-align:center;') #{service.contentType}
+    td(style='vertical-align: middle;')
+        if(service.method == 'GET')
+            input.btn.btn-success.btn-block(type='submit',value='#{service.method}')
+        else if(service.method == 'POST')
+            input.btn.btn-info.btn-block(type='submit',value='#{service.method}')
+        else if(service.method == 'PUT')
+            input.btn.btn-warning.btn-block(type='submit',value='#{service.method}')
+        else if(service.method == 'DELETE')
+            input.btn.btn-danger.btn-block(type='submit',value='#{service.method}')
