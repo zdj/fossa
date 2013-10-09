@@ -1,17 +1,17 @@
 h3 Http Services
 table.table.table-bordered.table-condensed
+    col(style='width: 7em;')
     col(style='width: 20em;')
-    col
     col(style='width: 4em;')
+    col
     col(style='width: 8em;')
-    col(style='width: 6em;')
     thead
         tr(style='background-color: Black;')
-            th(style='color: WhiteSmoke; text-align:center;') URL
-            th(style='color: WhiteSmoke; text-align:center;') Response
-            th(style='color: WhiteSmoke; text-align:center;') Status
-            th(style='color: WhiteSmoke; text-align:center;') Content Type
             th(style='color: WhiteSmoke; text-align:center;') Method
+            th(style='color: WhiteSmoke; text-align:center;') URL
+            th(style='color: WhiteSmoke; text-align:center;') Status
+            th(style='color: WhiteSmoke; text-align:center;') Response
+            th(style='color: WhiteSmoke; text-align:center;') Content Type
     tbody
         each service in services['http']
             if(service.method == 'GET')
