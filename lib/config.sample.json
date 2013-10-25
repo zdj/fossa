@@ -43,7 +43,7 @@
 			"path": "/http/file",
 			"params": {
 				"statusCode": 200,
-				"file": "hello.txt",
+				"file": "lots_of.txt",
 				"headers": {
 					"Content-Type": "text/plain"
 				}				
@@ -212,7 +212,9 @@
 				"vhost": "syndication",
 				"exchange": "syndication",
 				"routingKey": "update",
-				"payload": "Hello!",
+				"payload": {
+				  "message": "Hello!"
+				},
 				"payloadEncoding": "string"
 			}
 		}
@@ -229,7 +231,7 @@
 				"vhost": "syndication",
 				"exchange": "syndication",
 				"routingKey": "update",
-				"file": "hello.txt",
+				"file": "hello.json",
 				"payloadEncoding": "string"
 			}
 		}
