@@ -1,8 +1,31 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+tr.post {
+    background-color: #c4e3f3;
+    border-color: #c4e3f3;
 }
 
-a {
-  color: #00B7FF;
+tr.delete {
+    background-color: #f2dede;
+    border-color: #eed3d7;
+}
+
+tr.put {
+    background-color: #fcf8e3;
+    border-color: #fbeed5;
+}
+
+tr.get {
+    background-color: #d0e9c6;
+    border-color: #c9e2b3;
+}
+
+.panel-services > .panel-heading {
+    color: #333333;
+    background-color: #f5f5f5;
+    border-color: #dddddd;
+    padding-left: 10pt;
+    padding-right: 10pt;
+}
+
+.page-header {
+    padding-left: 10pt;
 }

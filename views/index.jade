@@ -2,8 +2,9 @@ extends layout
 
 block content
     div.page-header
-        h1 Fossa Simulator Dashboard
-    p
-        if services
-            include http
+        div.container
+            img.pull-right(src="images/fossa.jpg",style="width: 40%")
+            h1 Fossa Simulator Dashboard
+    if services
+        include http
       
