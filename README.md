@@ -15,7 +15,7 @@ The aim of this package is to provide a convenient, easy-to-configure and easy-t
 
 **Use Cases**
 
-Your application depends on REST services hosted on a server that is unaccessible in the development environment. You have already mocked the service interface in your unit tests, but you want to write some integration tests that mimic the production environment as much as possible. Fossa allows you to easily configure and launch a REST API that can issue responses that your application would expect.
+Your application depends on REST services hosted on a server that is unaccessible in the development environment. You have already mocked the service.js interface in your unit tests, but you want to write some integration tests that mimic the production environment as much as possible. Fossa allows you to easily configure and launch a REST API that can issue responses that your application would expect.
 
 Say you want to demo your progress to the client or management, but the REST api or messaging interface your app requires has not yet been implemented. Fossa can fill this void so that you don't have to build in placeholder logic that you will end up removing.
 
@@ -47,7 +47,7 @@ The following services are included in this build:
 * amqp_bind
 * amqp_publish
 
-For a detailed description of each service, including configuration examples, please see the section ***Service Configuration***.
+For a detailed description of each service.js, including configuration examples, please see the section ***Service Configuration***.
 
 Adding Custom Services
 ----------------------
@@ -66,11 +66,11 @@ Custom 'services' can be installed by creating or dropping in new javascript fil
   		
   	where the *responseMessage* is 	the data to be included in the response body, and the *statusCode* is the HTTP status code to be returned with the response.
 
-  * If calling the supplied callback, it is expected fossa will reply with it's standard response, and your 'service' should not attempt to send the response itself.
+  * If calling the supplied callback, it is expected fossa will reply with it's standard response, and your 'service.js' should not attempt to send the response itself.
   
   * Where file file based responses are allowed, response files should go in `lib/files`.
   
 Service Configuration
 ---------------------
 
-***TODO:*** *Add a description and configuration example for each service type.*
+***TODO:*** *Add a description and configuration example for each service.js type.*
