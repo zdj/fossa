@@ -9,14 +9,14 @@ exports.index = function (req, res) {
     var jadeContext = {
         title: 'Fossa Simulator',
         services: {},
-        host: req['headers']['host']
+        host: req.headers.host
     };
 
     var restServices = {};
 
-    async.eachLimit(conf['services'], 1, function (service, cb) {
+    async.eachLimit(conf.services, 1, function (service, cb) {
             addRestServices(service, restServices, function (err) {
-                jadeContext['services'] = restServices;
+                jadeContext.services = restServices;
                 cb(err);
             });
         },
@@ -31,7 +31,7 @@ exports.index = function (req, res) {
 
     function addRestServices(fossaService, restServices, cb) {
 
-        var serviceType = fossaService['type'];
+        var serviceType = fossaService.type;
 
         try {
             var jadeContextBuilder = require('../lib/services/ui/' + serviceType);
@@ -40,21 +40,29 @@ exports.index = function (req, res) {
         }
 
         if(jadeContextBuilder) {
+            
             if (!restServices[serviceType]) {
                 restServices[serviceType] = [];
             }
 
             async.eachLimit(['GET', 'PUT', 'POST', 'DELETE'], 1, function (method, _cb) {
-                jadeContextBuilder.buildJadeContext(fossaService[method], method, function (err, restService) {
-                    if (err) {
-                        _cb(err);
-                    } else {
-                        if (restService) {
-                            restServices[serviceType].push(restService);
+                                
+                var httpService = fossaService[method];
+                if(httpService) {
+                    httpService.method = method
+                    jadeContextBuilder.buildJadeContext(fossaService[method], function (err, restService) {
+                        if (err) {
+                            _cb(err);
+                        } else {
+                            if (restService) {
+                                restServices[serviceType].push(restService);
+                            }
+                            _cb(null);
                         }
-                        _cb(null);
-                    }
-                });
+                    });  
+                } else {
+                    _cb(null);
+                }
             },
             function (err) {
                 cb(err);

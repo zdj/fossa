@@ -1,12 +1,9 @@
-/**
- * Module dependencies.
- */
-
 var express = require('express');
 var routes = require('./routes');
 var http = require('http');
 var path = require('path');
 var fossa = require('./lib/fossa');
+var colors = require('colors');
 
 var app = express();
 
@@ -46,7 +43,7 @@ fossa.loadServices(app, function(serviceCount) {
 	console.log(('Created ' + serviceCount + ' services using lib/config.json').yellow.bold);
 	console.log();
 	server.listen(app.get('port'), function () {
-	    console.log('Express server listening on port ' + app.get('port'));
+	    console.log('Fossa Dashboard is running at: ' + ('http://localhost:' + app.get('port')).yellow);
 	});
 });
 

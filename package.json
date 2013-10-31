@@ -12,6 +12,7 @@
     "colors": "*",
     "mocha": "*", 
 	"underscore": "*",
-	"async": "*"
+	"async": "*",
+    "request": "*"
   }
 }
