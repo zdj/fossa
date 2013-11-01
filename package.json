@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node app.js",
+    "start": "supervisor -e 'json|js' app.js",
 	"test": "mocha -R tap $(find test -name '*.js')"
   },
   "dependencies": {
@@ -12,7 +12,6 @@
     "colors": "*",
     "mocha": "*", 
 	"underscore": "*",
-	"async": "*",
-    "request": "*"
+	"async": "*"
   }
 }

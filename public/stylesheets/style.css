@@ -29,3 +29,7 @@ tr.get {
 .page-header {
     padding-left: 10pt;
 }
+
+.body {
+    background-color: #3c3c3c;
+}
