@@ -24,34 +24,12 @@ function executeService(event, form) {
             params: params
         }
     }).done(function (data, textStatus, jqXHR) {
-            success(data, textStatus, jqXHR);
-    }).fail(function (jqXHR, textStatus, errorThrown) {
-            failed(jqXHR, textStatus, errorThrown);
+        handleResponse(jqXHR);
+    }).fail(function (jqXHR) {
+        handleResponse(jqXHR);
     });
 }
 
-function success(data, textStatus, jqXHR) {
-
-    alert("Result was: " + jqXHR.responseText + "\nStatus Code: " + jqXHR.status);
-}
-
-function failed(jqXHR, textStatus, errorThrown) {
-
-    alert("Result was: " + jqXHR.responseText + "\nStatus Code: " + jqXHR.status);
-
-//    var status = jqXHR.status;
-//
-//    if (data instanceof Object) {
-//        var result = JSON.stringify(data)
-//    } else {
-//        result = data;
-//    }
-//
-//    if (textStatus == "nocontent") {
-//        result = ""
-//    } else if(textStatus == "error") {
-//        status = jqXHR
-//    }
-//
-//    alert("Result was: " + result + "\nStatus Code: " + status);
+function handleResponse(jqXHR) {
+    alert("Result was: " + jqXHR.responseText + "\n\nStatus Code: " + jqXHR.status);
 }

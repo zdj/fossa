@@ -1,9 +1,11 @@
 extends layout
 
 block content
-    div.panel
-        div.panel-body
-            img.pull-right(src="images/fossa.jpg",style="width: 35%")
-            h1 Fossa Simulator Dashboard
-    if services
-        include http
+    div.container
+        p
+        div.panel.panel-default.panel-banner
+            div.panel-body
+                img.pull-right(src="images/fossa.png",style="width: 35%")
+                h1 Fossa Simulator Dashboard
+        if services
+            include http

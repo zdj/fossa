@@ -18,12 +18,30 @@ tr.get {
     border-color: #c9e2b3;
 }
 
+.panel-banner {
+    background-color: #e8e8e8;
+}
+
+/*noinspection CssOptimizeSimilarProperties*/
 .panel-services > .panel-heading {
-    color: #333333;
-    background-color: #f5f5f5;
-    border-color: #dddddd;
+    color: #000000;
+    background-color: #CCCCCC;
     padding-left: 10pt;
     padding-right: 10pt;
+    border-color: #f5f5f5;
+    border-width: 2pt;
+}
+
+/*noinspection CssOptimizeSimilarProperties*/
+.panel-services > .panel-footer {
+    background-color: #CCCCCC;
+    height: 30px;
+    border-color: #f5f5f5;
+    border-width: 2pt;
+}
+
+.panel-services > .panel-body {
+    background-color: #e8e8e8;
 }
 
 .page-header {
@@ -33,3 +51,22 @@ tr.get {
 .body {
     background-color: #3c3c3c;
 }
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: Menlo, Consolas, monospace, sans-serif;
+}
+
+th, td, input, .th, .td, .input {
+    font-family: Menlo, Consolas, monospace, sans-serif;
+}
+
+a:focus, .get, .put, .post, .delete {
+}
+
+a:visited, .get, .put, .post, .delete {
+
+}
+
+a:active, a:hover, .get, .put, .post, .delete {
+}
+
