@@ -1,0 +1,19 @@
+td(style='vertical-align: middle;')
+    form(name="#{service.type}-#{service.path}-#{service.method}",action='/service')
+        input(name="type",type='hidden',value='#{service.type}')
+        input(name="method",type='hidden',value='#{service.method}')
+        input(name="params",type='hidden',value='#{service.params}')
+        if(service.method == 'GET')
+            input.btn.btn-success.btn-block(type='submit',value='GET')
+        else if(service.method == 'POST')
+            input.btn.btn-info.btn-block(type='submit',value='POST')
+        else if(service.method == 'PUT')
+            input.btn.btn-warning.btn-block(type='submit',value='PUT')
+        else if(service.method == 'DELETE')
+            input.btn.btn-danger.btn-block(type='submit',value='DELETE')
+td(style='vertical-align: middle;')
+    a(href='http://#{host}#{service.path}') http://#{host}#{service.path}
+td(style='vertical-align: middle; text-align:center;') #{service.status}
+td
+    textarea(style='width: 97%; height: 7em;', disabled) #{service.response}
+td(style='vertical-align: middle; text-align:center;') #{service.contentType}
