@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "supervisor -e 'json|javascripts' app.js",
+    "start": "supervisor -e 'json|js' app.js",
 	"test": "mocha -R tap $(find test -name '*.javascripts')"
   },
   "dependencies": {
