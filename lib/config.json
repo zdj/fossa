@@ -3,13 +3,22 @@
 		"name": "HTTP service",
 		"description": "Returns the supplied status code and response message",
 		"type": "http",
-		"GET": {
-			"path": "/http",
-			"params": {
-				"statusCode": 200,
-				"response": "Hello!"
-			}
-		},
+		"GET": [
+            {
+    			"path": "/http/hello",
+    			"params": {
+    				"statusCode": 200,
+    				"response": "Hello!"
+    			}
+            },
+            {
+    			"path": "/http/goodbye",
+    			"params": {
+    				"statusCode": 200,
+    				"response": "Goodbye!"
+    			}
+            }
+        ],
 		"POST": {
 			"path": "/http",
 			"params": {
