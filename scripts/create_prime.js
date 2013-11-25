@@ -1,7 +1,15 @@
 #!/usr/bin/env node
 
-var apiKeyUtils = require('../lib/security/api_key_utils');
+var apiKeyUtils = require('api_key_utils');
 
-apiKeyUtils.createPrime(function(prime) {
-    console.log(prime)
+var runScript = function(callback) {
+    apiKeyUtils.createPrime(function(prime) {
+        callback(prime);
+    });
+};
+
+exports.runScript = runScript;
+
+runScript(function(prime) {
+    console.log(prime);
 });

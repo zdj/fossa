@@ -1,16 +1,24 @@
 var assert = require("assert");
 var fs = require("fs");
-var apiKeyUtils = require('../lib/security/api_key_utils');
+var fsExtra = require("fs-extra");
+var apiKeyUtils = require('../scripts/api_key_utils');
 
 describe('API Key Utils Tests', function () {
 
     before(function (done) {
-        fs.unlink('lib/security/prime.json', function (err1) {
-            fs.unlink('lib/security/api_keys.json', function (err) {
-                fs.unlink('lib/security/client_keys.json', function (err) {
-                    fs.unlink('lib/security/secret.json', function (err) {
-                        done();
-                    });
+        fs.rename('lib/security', 'lib/security_old', function (err1) {
+            fs.mkdir('lib/security', function (err1) {
+                done();
+            });
+        });
+    });
+
+    after(function (done) {
+        fsExtra.remove('lib/security', function (err1) {
+            fs.rename('lib/security_old', 'lib/security', function (err1) {
+                fsExtra.remove('lib/security_old', function (err1) {
+                    if (err1) throw err1
+                    done();
                 });
             });
         });
@@ -95,9 +103,9 @@ describe('API Key Utils Tests', function () {
         it('should always create the same secret', function (done) {
             apiKeyUtils.createSecret('client', function (json1) {
                 apiKeyUtils.createSecret('client', function (json2) {
-                    var secret1= JSON.parse(json1).secret;
-                    var secret2= JSON.parse(json2).secret;
-                    assert.equal(secret1,secret2);
+                    var secret1 = JSON.parse(json1).secret;
+                    var secret2 = JSON.parse(json2).secret;
+                    assert.equal(secret1, secret2);
                     done();
                 });
             });

@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 var colors = require('colors');
 var crypto = require('crypto');
 var fs = require('fs');
