@@ -10,7 +10,6 @@ var options = getOptions(data);
 addAuthorizationHeader(options, data);
 sendRequest(options, data);
 
-
 function addAuthorizationHeader(options, data) {
 
     // Steps for performing HMAC REST security
@@ -32,7 +31,7 @@ function addAuthorizationHeader(options, data) {
     var hmac = createHmacHash(stringToSign);
 
     // 6. Add the Authorization header to the request headers
-    options.headers['Authorization'] = 'syndication_api_key ' + require('../lib/security/client_keys.json')['publicKey'] + ':' + hmac;
+    options.headers['Authorization'] = 'api_key ' + require('../lib/security/client_keys.json')['publicKey'] + ':' + hmac;
 }
 
 function getData() {
