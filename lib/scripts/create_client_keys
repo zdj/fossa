@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var apiKeyUtils = require('api_key_utils');
+var apiKeyUtils = require('./api_key_utils');
 require('colors');
 
 var runScript = function(name,callback) {

@@ -1,7 +1,7 @@
 var assert = require("assert");
 var fs = require("fs");
 var fsExtra = require("fs-extra");
-var apiKeyUtils = require('../scripts/api_key_utils');
+var apiKeyUtils = require('./api_key_utils');
 
 describe('API Key Utils Tests', function () {
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var apiKeyUtils = require('api_key_utils');
+var apiKeyUtils = require('./api_key_utils');
 
 var runScript = function(callback) {
     apiKeyUtils.createKeys('api',function(keys) {
