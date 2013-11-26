@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
-var apiKeyUtils = require('./api_key_utils');
+var apiKeyUtils = require('./../utils/api_key_utils');
 require('colors');
 
-var runScript = function(name,callback) {
-    if(name) {
-        apiKeyUtils.createKeys(name,function(keys) {
+var runScript = function (name, callback) {
+    if (name) {
+        apiKeyUtils.createKeys(name, function (keys) {
             callback(keys);
         });
     } else {
@@ -15,7 +15,7 @@ var runScript = function(name,callback) {
 
 exports.runScript = runScript;
 
-runScript(process.argv[2],function(keys) {
+runScript(process.argv[2], function (keys) {
     console.log(keys);
 });
 

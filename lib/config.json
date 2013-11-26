@@ -1,265 +1,289 @@
 {
-    "services": [{
-        "name": "HTTP service",
-        "description": "Returns the supplied status code and response message",
-        "type": "http",
-        "GET": [{
-            "path": "/http/hello",
-            "params": {
-                "statusCode": 200,
-                "response": "Hello!"
-            }
-        }, {
-            "path": "/http/goodbye",
-            "params": {
-                "statusCode": 200,
-                "response": "Goodbye!"
-            }
-        }],
-        "POST": {
-            "path": "/http",
-            "params": {
-                "statusCode": 204
-            }
-        },
-        "PUT": {
-            "path": "/http",
-            "params": {
-                "statusCode": 200,
-                "response": {
-                    "response": "OK"
+    "services": [
+        {
+            "name": "HTTP service",
+            "description": "Returns the supplied status code and response message",
+            "type": "http",
+            "GET": [
+                {
+                    "path": "/http/hello",
+                    "params": {
+                        "statusCode": 200,
+                        "response": "Hello!"
+                    }
                 },
-                "headers": {
-                    "Content-Type": "application/json; charset=UTF-8"
+                {
+                    "path": "/http/goodbye",
+                    "params": {
+                        "statusCode": 200,
+                        "response": "Goodbye!"
+                    }
                 }
-            }
-        },
-        "DELETE": {
-            "path": "/http",
-            "params": {
-                "statusCode": 404,
-                "response": "Not Found"
-            }
-        }
-    }, 
-    {
-        "name": "File HTTP service",
-        "description": "Returns the supplied status code and file-based response message",
-        "type": "http",
-        "GET": {
-            "path": "/http/file",
-            "params": {
-                "statusCode": 200,
-                "file": "lots_of.txt",
-                "headers": {
-                    "Content-Type": "text/plain"
+            ],
+            "POST": {
+                "path": "/http",
+                "params": {
+                    "statusCode": 204
                 }
-            }
-        }
-    }, 
-    {
-        "name": "Logger service",
-        "description": "Logs information about the request",
-        "type": "logger",
-        "ALL": {
-            "path": "/logger"
-        }
-    }, 
-    {
-        "name": "Echo service",
-        "description": "Echoes the request body for POST/PUT, and the requested URL for GET/DELETE",
-        "type": "echo",
-        "ALL": {
-            "path": "/echo"
-        }
-    }, 
-    {
-        "name": "Redirect service",
-        "description": "Redirects the caller to the supplied URL",
-        "type": "redirect",
-        "ALL": {
-            "path": "/redirect",
-            "params": {
-                "url": "http://google.com"
-            }
-        }
-    }, 
-    {
-        "name": "Match service",
-        "description": "Responds conditionally based on a matching url string, body string or header key/value",
-        "type": "match",
-        "GET": {
-            "path": "/match",
-            "params": {
-                "urlMatch": [{
-                    "string": "ham=cheese",
+            },
+            "PUT": {
+                "path": "/http",
+                "params": {
                     "statusCode": 200,
                     "response": {
-                        "yes": "please"
+                        "response": "OK"
                     },
                     "headers": {
                         "Content-Type": "application/json; charset=UTF-8"
                     }
-                }, {
-                    "string": "?peanutButter",
-                    "statusCode": 204
-                }]
+                }
+            },
+            "DELETE": {
+                "path": "/http",
+                "params": {
+                    "statusCode": 404,
+                    "response": "Not Found"
+                }
             }
         },
-        "POST": {
-            "path": "/match",
-            "params": {
-                "bodyMatch": [{
-                    "string": "hamAndCheese",
-                    "statusCode": 200,
-                    "file": "hello.txt"
-                }, {
-                    "string": "baconLettuceAndTomato",
-                    "statusCode": 200,
-                    "response": "yes please!"
-                }]
+        {
+            "name": "Secure HTTP service",
+            "description": "An HTTP service that is expecting an Authorization header with an API key",
+            "type": "logger",
+            "POST": {
+                "path": "/secure/logger",
+                "params": {
+                    "apiKey": "api_key"
+                }
             }
         },
-        "PUT": {
-            "path": "/match",
-            "params": {
-                "headerMatch": [{
-                    "key": "Ham",
-                    "value": "Cheese",
+        {
+            "name": "File HTTP service",
+            "description": "Returns the supplied status code and file-based response message",
+            "type": "http",
+            "GET": {
+                "path": "/http/file",
+                "params": {
                     "statusCode": 200,
-                    "file": "hello.txt"
-                }]
+                    "file": "lots_of.txt",
+                    "headers": {
+                        "Content-Type": "text/plain"
+                    }
+                }
+            }
+        },
+        {
+            "name": "Logger service",
+            "description": "Logs information about the request",
+            "type": "logger",
+            "ALL": {
+                "path": "/logger"
+            }
+        },
+        {
+            "name": "Echo service",
+            "description": "Echoes the request body for POST/PUT, and the requested URL for GET/DELETE",
+            "type": "echo",
+            "ALL": {
+                "path": "/echo"
+            }
+        },
+        {
+            "name": "Redirect service",
+            "description": "Redirects the caller to the supplied URL",
+            "type": "redirect",
+            "ALL": {
+                "path": "/redirect",
+                "params": {
+                    "url": "http://google.com"
+                }
+            }
+        },
+        {
+            "name": "Match service",
+            "description": "Responds conditionally based on a matching url string, body string or header key/value",
+            "type": "match",
+            "GET": {
+                "path": "/match",
+                "params": {
+                    "urlMatch": [
+                        {
+                            "string": "ham=cheese",
+                            "statusCode": 200,
+                            "response": {
+                                "yes": "please"
+                            },
+                            "headers": {
+                                "Content-Type": "application/json; charset=UTF-8"
+                            }
+                        },
+                        {
+                            "string": "?peanutButter",
+                            "statusCode": 204
+                        }
+                    ]
+                }
+            },
+            "POST": {
+                "path": "/match",
+                "params": {
+                    "bodyMatch": [
+                        {
+                            "string": "hamAndCheese",
+                            "statusCode": 200,
+                            "file": "hello.txt"
+                        },
+                        {
+                            "string": "baconLettuceAndTomato",
+                            "statusCode": 200,
+                            "response": "yes please!"
+                        }
+                    ]
+                }
+            },
+            "PUT": {
+                "path": "/match",
+                "params": {
+                    "headerMatch": [
+                        {
+                            "key": "Ham",
+                            "value": "Cheese",
+                            "statusCode": 200,
+                            "file": "hello.txt"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "name": "RabbitMQ (AMQP) User Creator",
+            "description": "Creates a user",
+            "type": "amqp_user",
+            "PUT": {
+                "path": "/amqp/user",
+                "params": {
+                    "host": "127.0.0.1",
+                    "port": 15672,
+                    "user": "admin:admin",
+                    "username": "admin",
+                    "password": "admin",
+                    "tag": "administrator"
+                }
+            }
+        },
+        {
+            "name": "RabbitMQ (AMQP) VHost Creator",
+            "description": "Creates a vhost",
+            "type": "amqp_vhost",
+            "PUT": {
+                "path": "/amqp/vhost",
+                "params": {
+                    "host": "127.0.0.1",
+                    "port": 15672,
+                    "user": "admin:admin",
+                    "vhost": "syndication"
+                }
+            }
+        },
+        {
+            "name": "RabbitMQ (AMQP) VHost User Permissions",
+            "description": "Gives a user vhost permissions",
+            "type": "amqp_vhost_user",
+            "POST": {
+                "path": "/amqp/vhost/user",
+                "params": {
+                    "host": "127.0.0.1",
+                    "port": 15672,
+                    "user": "admin:admin",
+                    "vhost": "syndication",
+                    "username": "admin"
+                }
+            }
+        },
+        {
+            "name": "RabbitMQ (AMQP) Exchange Creator",
+            "description": "Creates an exchange on the specified vhost",
+            "type": "amqp_exchange",
+            "PUT": {
+                "path": "/amqp/exchange",
+                "params": {
+                    "host": "127.0.0.1",
+                    "port": 15672,
+                    "user": "admin:admin",
+                    "vhost": "syndication",
+                    "exchange": "syndication"
+                }
+            }
+        },
+        {
+            "name": "RabbitMQ (AMQP) Queue Creator",
+            "description": "Creates a queue on the specified vhost",
+            "type": "amqp_queue",
+            "PUT": {
+                "path": "/amqp/queue",
+                "params": {
+                    "host": "127.0.0.1",
+                    "port": 15672,
+                    "user": "admin:admin",
+                    "vhost": "syndication",
+                    "queue": "syndicated.content"
+                }
+            }
+        },
+        {
+            "name": "RabbitMQ (AMQP) Exchange->Queue Binding",
+            "description": "Binds a queue to an exchange using the specified routing key",
+            "type": "amqp_bind",
+            "POST": {
+                "path": "/amqp/bind",
+                "params": {
+                    "host": "127.0.0.1",
+                    "port": 15672,
+                    "user": "admin:admin",
+                    "vhost": "syndication",
+                    "exchange": "syndication",
+                    "queue": "syndicated.content",
+                    "routingKey": "update"
+                }
+            }
+        },
+        {
+            "name": "RabbitMQ (AMQP) Message Publisher",
+            "description": "Publishes a message on the specified vhost/exchange",
+            "type": "amqp_publish",
+            "POST": {
+                "path": "/amqp/publish",
+                "params": {
+                    "host": "127.0.0.1",
+                    "port": 15672,
+                    "user": "admin:admin",
+                    "vhost": "syndication",
+                    "exchange": "syndication",
+                    "routingKey": "update",
+                    "payload": {
+                        "message": "Hello!"
+                    },
+                    "payloadEncoding": "string"
+                }
+            }
+        },
+        {
+            "name": "RabbitMQ (AMQP) File Message Publisher",
+            "description": "Publishes a message on the specified vhost/exchange",
+            "type": "amqp_publish",
+            "POST": {
+                "path": "/amqp/publish/file",
+                "params": {
+                    "host": "127.0.0.1",
+                    "port": 15672,
+                    "user": "admin:admin",
+                    "vhost": "syndication",
+                    "exchange": "syndication",
+                    "routingKey": "update",
+                    "file": "hello.json",
+                    "payloadEncoding": "string"
+                }
             }
         }
-    }, 
-    {
-        "name": "RabbitMQ (AMQP) User Creator",
-        "description": "Creates a user",
-        "type": "amqp_user",
-        "PUT": {
-            "path": "/amqp/user",
-            "params": {
-                "host": "127.0.0.1",
-                "port": 15672,
-                "user": "admin:admin",
-                "username": "admin",
-                "password": "admin",
-                "tag": "administrator"
-            }
-        }
-    }, 
-    {
-        "name": "RabbitMQ (AMQP) VHost Creator",
-        "description": "Creates a vhost",
-        "type": "amqp_vhost",
-        "PUT": {
-            "path": "/amqp/vhost",
-            "params": {
-                "host": "127.0.0.1",
-                "port": 15672,
-                "user": "admin:admin",
-                "vhost": "syndication"
-            }
-        }
-    }, 
-    {
-        "name": "RabbitMQ (AMQP) VHost User Permissions",
-        "description": "Gives a user vhost permissions",
-        "type": "amqp_vhost_user",
-        "POST": {
-            "path": "/amqp/vhost/user",
-            "params": {
-                "host": "127.0.0.1",
-                "port": 15672,
-                "user": "admin:admin",
-                "vhost": "syndication",
-                "username": "admin"
-            }
-        }
-    }, 
-    {
-        "name": "RabbitMQ (AMQP) Exchange Creator",
-        "description": "Creates an exchange on the specified vhost",
-        "type": "amqp_exchange",
-        "PUT": {
-            "path": "/amqp/exchange",
-            "params": {
-                "host": "127.0.0.1",
-                "port": 15672,
-                "user": "admin:admin",
-                "vhost": "syndication",
-                "exchange": "syndication"
-            }
-        }
-    }, 
-    {
-        "name": "RabbitMQ (AMQP) Queue Creator",
-        "description": "Creates a queue on the specified vhost",
-        "type": "amqp_queue",
-        "PUT": {
-            "path": "/amqp/queue",
-            "params": {
-                "host": "127.0.0.1",
-                "port": 15672,
-                "user": "admin:admin",
-                "vhost": "syndication",
-                "queue": "syndicated.content"
-            }
-        }
-    }, 
-    {
-        "name": "RabbitMQ (AMQP) Exchange->Queue Binding",
-        "description": "Binds a queue to an exchange using the specified routing key",
-        "type": "amqp_bind",
-        "POST": {
-            "path": "/amqp/bind",
-            "params": {
-                "host": "127.0.0.1",
-                "port": 15672,
-                "user": "admin:admin",
-                "vhost": "syndication",
-                "exchange": "syndication",
-                "queue": "syndicated.content",
-                "routingKey": "update"
-            }
-        }
-    }, 
-    {
-        "name": "RabbitMQ (AMQP) Message Publisher",
-        "description": "Publishes a message on the specified vhost/exchange",
-        "type": "amqp_publish",
-        "POST": {
-            "path": "/amqp/publish",
-            "params": {
-                "host": "127.0.0.1",
-                "port": 15672,
-                "user": "admin:admin",
-                "vhost": "syndication",
-                "exchange": "syndication",
-                "routingKey": "update",
-                "payload": {
-                    "message": "Hello!"
-                },
-                "payloadEncoding": "string"
-            }
-        }
-    }, 
-    {
-        "name": "RabbitMQ (AMQP) File Message Publisher",
-        "description": "Publishes a message on the specified vhost/exchange",
-        "type": "amqp_publish",
-        "POST": {
-            "path": "/amqp/publish/file",
-            "params": {
-                "host": "127.0.0.1",
-                "port": 15672,
-                "user": "admin:admin",
-                "vhost": "syndication",
-                "exchange": "syndication",
-                "routingKey": "update",
-                "file": "hello.json",
-                "payloadEncoding": "string"
-            }
-        }
-    }]
+    ]
 }
