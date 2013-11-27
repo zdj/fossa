@@ -42,8 +42,8 @@ app.get('/', routes.index);
 fossa.loadServices(app, function(serviceCount) {
 	console.log(('Created ' + serviceCount + ' services using lib/config.json').yellow.bold);
 	console.log();
-	server.listen(app.get('port'), function () {
-	    console.log('Fossa Dashboard is running at: ' + ('http://localhost:' + app.get('port')).yellow);
+	server.listen(app.settings.port, function () {
+	    console.log('Fossa Dashboard is running at: ' + ('http://localhost:' + app.settings.port).yellow);
 	});
 });
 
