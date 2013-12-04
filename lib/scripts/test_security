@@ -18,8 +18,8 @@ sendRequest(options, data);
 
 function addAuthorizationHeader(options, data) {
 
-    var canonicalizedHeaders = apiKeyUtils.getCanonicalizeHeaders(options.headers);
-    var canonicalizedResource = apiKeyUtils.getCanonicalizedResource(options);
+    var canonicalizedHeaders = apiKeyUtils.getCanonicalizedHeaders(options.headers);
+    var canonicalizedResource = apiKeyUtils.getCanonizalizedResource(options.path);
     var hmac = apiKeyUtils.createHmacHash(data, options.method, options.headers, canonicalizedHeaders, canonicalizedResource);
     var publicKey = apiKeyUtils.getPublicKey('client');
 
@@ -36,11 +36,10 @@ function getOptions(data) {
     return {
         hostname: '127.0.0.1',
         port: 3000,
-        path: '/secure/logger',
+        path: '/secure/logger?name=value',
         method: 'POST',
         auth: '',
         headers: {
-            'My Amazing Header': 'Its really\namazing!? ',
             'Date': '     ' + new Date().toString(),
             'Content-Type': 'application/json',
             'Content-Length': data.length

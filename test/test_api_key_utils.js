@@ -126,4 +126,260 @@ describe('API Key Utils Tests', function () {
             });
         });
     });
+    describe('create HMAC hash of a signing string', function () {
+        it('should hash a signing string that can be verfied using the same ', function (done) {
+            fs.readFile('lib/security/api_keys.json', function (err, json) {
+                var keys = JSON.parse(json);
+                assert.equal(keys.publicKey, apiKeyUtils.getApiPublicKey());
+                assert.equal(keys.privateKey, apiKeyUtils.getApiPrivateKey());
+                done();
+            });
+        });
+    });
+    describe('perform authentication check', function () {
+        it("should not allow access if 'Authentication' header is missing the apiKey", function (done) {
+            var request = {
+                header: function (name) {
+                    return "beefaroni";
+                }
+            };
+            var response = {
+            };
+            var params = {
+            };
+            var callback = function (req, res, message, statusCode) {
+                assert.equal(401, statusCode);
+                assert.equal('Not authorized', message);
+                done();
+            };
+            var methodToCall = function () {
+            };
+            apiKeyUtils.performAuthCheck(request, response, params, methodToCall, callback);
+        });
+        it("should not allow access if 'Authentication' header is missing", function (done) {
+            var request = {
+                header: function (name) {
+                    return null;
+                }
+            };
+            var response = {
+            };
+            var params = {
+            };
+            var callback = function (req, res, message, statusCode) {
+                assert.equal(401, statusCode);
+                assert.equal('Not authorized', message);
+                done();
+            };
+            var methodToCall = function () {
+            };
+            apiKeyUtils.performAuthCheck(request, response, params, methodToCall, callback);
+        });
+        it("should not allow access if the apiKey is in the wrong place", function (done) {
+            var request = {
+                header: function (name) {
+                    return " a_pee_eye_key";
+                }
+            };
+            var response = {
+            };
+            var params = {
+                "apiKey": "a_pee_eye_key"
+            };
+            var callback = function (req, res, message, statusCode) {
+                assert.equal(401, statusCode);
+                assert.equal('Not authorized', message);
+                done();
+            };
+            var methodToCall = function () {
+            };
+            apiKeyUtils.performAuthCheck(request, response, params, methodToCall, callback);
+        });
+        it("should not allow access if the apiKey value doesn't exist", function (done) {
+            var request = {
+                header: function (name) {
+                    return "a_pee_eye_key";
+                }
+            };
+            var response = {
+            };
+            var params = {
+                "apiKey": "a_pee_eye_key"
+            };
+            var callback = function (req, res, message, statusCode) {
+                assert.equal(401, statusCode);
+                assert.equal('Not authorized', message);
+                done();
+            };
+            var methodToCall = function () {
+            };
+            apiKeyUtils.performAuthCheck(request, response, params, methodToCall, callback);
+        });
+        it("should not allow access if the apiKey value isn't separated with a colon", function (done) {
+            var request = {
+                header: function (name) {
+                    return "a_pee_eye_key donkeykong";
+                }
+            };
+            var response = {
+            };
+            var params = {
+                "apiKey": "a_pee_eye_key"
+            };
+            var callback = function (req, res, message, statusCode) {
+                assert.equal(401, statusCode);
+                assert.equal('Not authorized', message);
+                done();
+            };
+            var methodToCall = function () {
+            };
+            apiKeyUtils.performAuthCheck(request, response, params, methodToCall, callback);
+        });
+        it("should not allow access if the apiKey value's public key is empty", function (done) {
+            var request = {
+                header: function (name) {
+                    return "a_pee_eye_key :kong";
+                }
+            };
+            var response = {
+            };
+            var params = {
+                "apiKey": "a_pee_eye_key"
+            };
+            var callback = function (req, res, message, statusCode) {
+                assert.equal(401, statusCode);
+                assert.equal('Not authorized', message);
+                done();
+            };
+            var methodToCall = function () {
+            };
+            apiKeyUtils.performAuthCheck(request, response, params, methodToCall, callback);
+        });
+        it("should not allow access if the apiKey value's hmac hash is empty", function (done) {
+            var request = {
+                header: function (name) {
+                    return "a_pee_eye_key donkey:";
+                }
+            };
+            var response = {
+            };
+            var params = {
+                "apiKey": "a_pee_eye_key"
+            };
+            var callback = function (req, res, message, statusCode) {
+                assert.equal(401, statusCode);
+                assert.equal('Not authorized', message);
+                done();
+            };
+            var methodToCall = function () {
+            };
+            apiKeyUtils.performAuthCheck(request, response, params, methodToCall, callback);
+        });
+        it("should not allow access if the apiKey value's public key doesn't match a private key", function (done) {
+            var request = {
+                header: function (name) {
+                    return "a_pee_eye_key donkey:kong";
+                }
+            };
+            var response = {
+            };
+            var params = {
+                "apiKey": "a_pee_eye_key"
+            };
+            var callback = function (req, res, message, statusCode) {
+                assert.equal(401, statusCode);
+                assert.equal('Not authorized', message);
+                done();
+            };
+            var methodToCall = function () {
+            };
+            apiKeyUtils.performAuthCheck(request, response, params, methodToCall, callback);
+        });
+        it("should not allow access if the hmac hashes don't match", function (done) {
+            var data = JSON.stringify({
+                "message": "whats up!"
+            });
+            var headers = {
+                'Date': '     ' + new Date().toString(),
+                'Content-Type': 'application/json',
+                'Content-Length': data.length
+            };
+            var method = 'POST';
+
+            var canonicalizedHeaders = apiKeyUtils.getCanonicalizedHeaders(headers);
+            var canonicalizedResource = '/secure/logger';
+            var hmacHash = apiKeyUtils.createHmacHash(data, method, headers, canonicalizedHeaders, canonicalizedResource);
+            var publicKey = apiKeyUtils.getPublicKey('client');
+
+            var request = {
+                header: function (name) {
+                    if(name=='Authorization') {
+                        return "a_pee_eye_key " + publicKey + ":" + hmacHash;
+                    } else {
+                        return null;
+                    }
+                },
+                headers: headers,
+                method: method,
+                url: '/secure/logger',
+                rawBody: JSON.stringify({
+                    "message": "whats up dude!"
+                })
+            };
+            var response = {
+            };
+            var params = {
+                "apiKey": "a_pee_eye_key"
+            };
+            var callback = function (req, res, message, statusCode) {
+                assert.equal(401, statusCode);
+                assert.equal('Not authorized', message);
+                done();
+            };
+            var methodToCall = function () {
+            };
+            apiKeyUtils.performAuthCheck(request, response, params, methodToCall, callback);
+        });
+        it("should allow access if the hmac hashes match", function (done) {
+            var data = JSON.stringify({
+                "message": "whats up!"
+            });
+            var headers = {
+                'Date': '     ' + new Date().toString(),
+                'Content-Type': 'application/json',
+                'Content-Length': data.length
+            };
+            var method = 'POST';
+
+            var canonicalizedHeaders = apiKeyUtils.getCanonicalizedHeaders(headers);
+            var canonicalizedResource = apiKeyUtils.getCanonizalizedResource('/secure/logger');
+            var hmacHash = apiKeyUtils.createHmacHash(data, method, headers, canonicalizedHeaders, canonicalizedResource);
+            var publicKey = apiKeyUtils.getPublicKey('client');
+
+            var request = {
+                header: function (name) {
+                    if(name=='Authorization') {
+                        return "a_pee_eye_key " + publicKey + ":" + hmacHash;
+                    } else {
+                        return null;
+                    }
+                },
+                headers: headers,
+                method: method,
+                url: '/secure/logger',
+                rawBody: data
+            };
+            var response = {
+            };
+            var params = {
+                "apiKey": "a_pee_eye_key"
+            };
+            var callback = function (req, res, message, statusCode) {
+            };
+            var methodToCall = function (req, res, params, cb) {
+                done();
+            };
+            apiKeyUtils.performAuthCheck(request, response, params, methodToCall, callback);
+        });
+    });
 });
