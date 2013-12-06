@@ -29,7 +29,7 @@ describe('API Key Utils Tests', function () {
             apiKeyUtils.createPrime(function (json) {
                 fs.readFile('lib/security/prime.json', function (err, prime) {
                     assert(!err);
-                    assert.equal(44, JSON.parse(prime).prime.length);
+                    assert.equal(88, JSON.parse(prime).prime.length);
                     done();
                 });
             });
@@ -56,8 +56,8 @@ describe('API Key Utils Tests', function () {
             apiKeyUtils.createKeys('api', function (data) {
                 fs.readFile('lib/security/api_keys.json', function (err, json) {
                     var keys = JSON.parse(json);
-                    assert.equal(44, keys.privateKey.length);
-                    assert.equal(44, keys.publicKey.length);
+                    assert.equal(88, keys.privateKey.length);
+                    assert.equal(88, keys.publicKey.length);
                     done();
                 });
             });
@@ -92,7 +92,7 @@ describe('API Key Utils Tests', function () {
         it('should write the generated secret to a file', function (done) {
             apiKeyUtils.createKeys('client', function (json) {
                 apiKeyUtils.createSecret('client', function (secret) {
-                    assert.equal(44, secret.secret.length);
+                    assert.equal(88, secret.secret.length);
                     done();
                 });
             });
