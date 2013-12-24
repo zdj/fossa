@@ -1,0 +1,23 @@
+#!/usr/bin/env node
+
+var apiKeyUtils = require('./../utils/new_api_key_utils');
+
+var name = process.env.npm_config_name;
+
+var runScript = function (callback, name) {
+    apiKeyUtils.createDHKeys(function (keys) {
+        callback(keys);
+    }, name);
+};
+
+exports.runScript = runScript;
+
+runScript(function (keys) {
+    console.log(keys);
+    console.log("\n");
+    if(name) {
+        console.log("Keys were saved to: lib/keys/" + name + ".json");
+        console.log("\n");
+    }
+    process.exit(0);
+}, name);

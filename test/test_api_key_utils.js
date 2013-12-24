@@ -17,7 +17,7 @@ describe('API Key Utils Tests', function () {
         fsExtra.remove('lib/security', function (err1) {
             fs.rename('lib/security_old', 'lib/security', function (err1) {
                 fsExtra.remove('lib/security_old', function (err1) {
-                    if (err1) throw err1
+                    if (err1) throw err1;
                     done();
                 });
             });
