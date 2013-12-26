@@ -25,14 +25,14 @@ describe('New API Key Utils Tests', function () {
     });
 
     describe('create a key pair', function () {
-        it('should only create a new public and private key if no "name" is specified', function (done) {
+        it('should only create a new public and private key if no "entity" is specified', function (done) {
             apiKeyUtils.createDHKeys(function (keys) {
-                assert.equal(keys.publicKey.length,256);
-                assert.equal(keys.privateKey.length,256);
+                assert.equal(keys.publicKey.length,88);
+                assert.equal(keys.privateKey.length,88);
                 done();
             });
         });
-        it('should write the keys to the specified file "name', function (done) {
+        it('should write the keys to the specified file "entity "', function (done) {
             apiKeyUtils.createDHKeys(function (keys) {
                 fs.readFile('lib/keys/client.json', function (err, data) {
                     assert(!err);
@@ -42,6 +42,30 @@ describe('New API Key Utils Tests', function () {
                     done();
                 });
             }, "client");
+        });
+    });
+
+    describe('create a shared secret', function () {
+        it('should throw an error if both entity names are not provided', function (done) {
+            try {
+                apiKeyUtils.createSharedSecret('entity1', null, function (secret) {
+                    assert.equal(secret.length, 88);
+                    done();
+                });
+            } catch (e) {
+                assert.equal(e.message,"'entity1' and 'entity2' are required");
+                done();
+            }
+        });
+        it('should write the keys to the specified file "entity "', function (done) {
+            apiKeyUtils.createDHKeys(function (keys1) {
+                apiKeyUtils.createDHKeys(function (keys2) {
+                    apiKeyUtils.createSharedSecret('entity1', 'entity2', function (secret) {
+                        assert.equal(secret.length,88);
+                        done();
+                    });
+                },'entity2');
+            },'entity1');
         });
     });
 });
