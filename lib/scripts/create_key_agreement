@@ -1,0 +1,19 @@
+#!/usr/bin/env node
+
+var apiKeyUtils = require('./../utils/new_api_key_utils');
+
+var runScript = function (callback) {
+    apiKeyUtils.createKeyAgreement('server', 'client', function (keyAgreement) {
+        callback(keyAgreement);
+    });
+};
+
+exports.runScript = runScript;
+
+runScript(function (keys) {
+    console.log(keys);
+    console.log("\n");
+    console.log("Key agreement was saved to: lib/keys/server_client_keyAgreement.json");
+    console.log("\n");
+    process.exit(0);
+});

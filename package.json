@@ -5,9 +5,7 @@
   "scripts": {
     "start": "supervisor -e 'json|js' app.js",
 	"test": "mocha -R tap $(find test -name '*.js')",
-    "createKeyPair": "./lib/scripts/create_dh_key_pair",
-    "createPrime": "./lib/scripts/create_prime",
-    "createSecret": "./lib/scripts/create_shared_secret",
+    "createKeyAgreement": "./lib/scripts/create_key_agreement",
     "testSecurity": "./lib/scripts/test_security api_key"
   },
   "dependencies": {
