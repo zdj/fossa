@@ -1,33 +1,21 @@
-var assert = require("assert");
-var fs = require("fs");
-var fsExtra = require("fs-extra");
+var assert = require('assert');
+var fs = require('fs');
+var colors = require('colors');
+var fsExtra = require('fs-extra');
 var apiKeyUtils = require('../lib/utils/new_api_key_utils');
 
 describe('New API Key Utils Tests', function () {
 
     beforeEach(function (done) {
-        fs.rename('lib/keys', 'lib/keys_old', function (err1) {
-            fs.mkdir('lib/keys', function (err1) {
-                if (err1) throw err1;
-                done();
-            });
-        });
-    });
-
-    afterEach(function (done) {
-        fsExtra.remove('lib/keys', function (err1) {
-            fs.rename('lib/keys_old', 'lib/keys', function (err1) {
-                fsExtra.remove('lib/keys_old', function (err1) {
-                    if (err1) throw err1;
-                    done();
-                });
-            });
+        fsExtra.delete('lib/keys/server_client_keyAgreement.json', function (err) {
+            console.log("successfully deleted lib/keys/server_client_keyAgreement.json".green);
+            done();
         });
     });
 
     describe('create a key agreement', function () {
         it('should write the key agreement to a file', function (done) {
-            apiKeyUtils.createKeyAgreement('server', 'client', function(keyAgreement) {
+            apiKeyUtils.createKeyAgreement(function (keyAgreement) {
                 fs.readFile('lib/keys/server_client_keyAgreement.json', function (err, data) {
                     var _keyAgreement = JSON.parse(data);
                     assert.equal(_keyAgreement.entity1, keyAgreement.entity1);
@@ -46,9 +34,9 @@ describe('New API Key Utils Tests', function () {
     });
 
     describe('get key agreement', function () {
-        it('should return the key agreement by entity1 name and entity2 public key', function (done) {
-            apiKeyUtils.createKeyAgreement('server', 'client', function(keyAgreement) {
-                apiKeyUtils.getKeyAgreement('server',keyAgreement.entity2PublicKey, function(_keyAgreement) {
+        it('should return the key agreement by entity2 public key', function (done) {
+            apiKeyUtils.createKeyAgreement(function (keyAgreement) {
+                apiKeyUtils.getKeyAgreement(keyAgreement.entity2PublicKey, function (_keyAgreement) {
                     assert.equal(_keyAgreement.entity1PrivateKey, keyAgreement.entity1PrivateKey);
                     done();
                 });
@@ -74,7 +62,7 @@ describe('New API Key Utils Tests', function () {
             };
             var methodToCall = function () {
             };
-            apiKeyUtils.performAuthCheck(request, response, params, methodToCall, 'server', callback);
+            apiKeyUtils.performAuthCheck(request, response, params, methodToCall, callback);
         });
         it("should not allow access if 'Authentication' header is missing", function (done) {
             var request = {
@@ -93,7 +81,7 @@ describe('New API Key Utils Tests', function () {
             };
             var methodToCall = function () {
             };
-            apiKeyUtils.performAuthCheck(request, response, params, methodToCall, 'server', callback);
+            apiKeyUtils.performAuthCheck(request, response, params, methodToCall, callback);
         });
         it("should not allow access if the apiKey is in the wrong place", function (done) {
             var request = {
@@ -113,7 +101,7 @@ describe('New API Key Utils Tests', function () {
             };
             var methodToCall = function () {
             };
-            apiKeyUtils.performAuthCheck(request, response, params, methodToCall, 'server', callback);
+            apiKeyUtils.performAuthCheck(request, response, params, methodToCall, callback);
         });
         it("should not allow access if the apiKey value doesn't exist", function (done) {
             var request = {
@@ -133,7 +121,7 @@ describe('New API Key Utils Tests', function () {
             };
             var methodToCall = function () {
             };
-            apiKeyUtils.performAuthCheck(request, response, params, methodToCall, 'server', callback);
+            apiKeyUtils.performAuthCheck(request, response, params, methodToCall, callback);
         });
         it("should not allow access if the apiKey value isn't separated with a colon", function (done) {
             var request = {
@@ -153,51 +141,55 @@ describe('New API Key Utils Tests', function () {
             };
             var methodToCall = function () {
             };
-            apiKeyUtils.performAuthCheck(request, response, params, methodToCall, 'server', callback);
+            apiKeyUtils.performAuthCheck(request, response, params, methodToCall, callback);
         });
         it("should not allow access if the apiKey value's public key is empty", function (done) {
-            var request = {
-                header: function (name) {
-                    return "a_pee_eye_key :kong";
-                }
-            };
-            var response = {
-            };
-            var params = {
-                "apiKey": "a_pee_eye_key"
-            };
-            var callback = function (req, res, message, statusCode) {
-                assert.equal(401, statusCode);
-                assert.equal('Not authorized', message);
-                done();
-            };
-            var methodToCall = function () {
-            };
-            apiKeyUtils.performAuthCheck(request, response, params, methodToCall, 'server', callback);
+            apiKeyUtils.createKeyAgreement(function (keyAgreement) {
+                var request = {
+                    header: function (name) {
+                        return "a_pee_eye_key :kong";
+                    }
+                };
+                var response = {
+                };
+                var params = {
+                    "apiKey": "a_pee_eye_key"
+                };
+                var callback = function (req, res, message, statusCode) {
+                    assert.equal(401, statusCode);
+                    assert.equal('Not authorized', message);
+                    done();
+                };
+                var methodToCall = function () {
+                };
+                apiKeyUtils.performAuthCheck(request, response, params, methodToCall, callback);
+            });
         });
         it("should not allow access if the apiKey value's hmac hash is empty", function (done) {
-            var request = {
-                header: function (name) {
-                    return "a_pee_eye_key donkey:";
-                }
-            };
-            var response = {
-            };
-            var params = {
-                "apiKey": "a_pee_eye_key"
-            };
-            var callback = function (req, res, message, statusCode) {
-                assert.equal(401, statusCode);
-                assert.equal('Not authorized', message);
-                done();
-            };
-            var methodToCall = function () {
-            };
-            apiKeyUtils.performAuthCheck(request, response, params, methodToCall, 'server', callback);
+            apiKeyUtils.createKeyAgreement(function (keyAgreement) {
+                var request = {
+                    header: function (name) {
+                        return "a_pee_eye_key donkey:";
+                    }
+                };
+                var response = {
+                };
+                var params = {
+                    "apiKey": "a_pee_eye_key"
+                };
+                var callback = function (req, res, message, statusCode) {
+                    assert.equal(401, statusCode);
+                    assert.equal('Not authorized', message);
+                    done();
+                };
+                var methodToCall = function () {
+                };
+                apiKeyUtils.performAuthCheck(request, response, params, methodToCall, callback);
+            });
         });
         it("should not allow access if the apiKey value's public key doesn't match a private key", function (done) {
 
-            apiKeyUtils.createKeyAgreement('server','client', function(keyAgreement) {
+            apiKeyUtils.createKeyAgreement(function (keyAgreement) {
 
                 var request = {
                     header: function (name) {
@@ -216,12 +208,12 @@ describe('New API Key Utils Tests', function () {
                 };
                 var methodToCall = function () {
                 };
-                apiKeyUtils.performAuthCheck(request, response, params, methodToCall, keyAgreement.entity1, callback);
+                apiKeyUtils.performAuthCheck(request, response, params, methodToCall, callback);
             });
         });
         it("should not allow access if the hmac hashes don't match", function (done) {
 
-            apiKeyUtils.createKeyAgreement('server','client', function(keyAgreement) {
+            apiKeyUtils.createKeyAgreement(function (keyAgreement) {
                 var data = JSON.stringify({
                     "message": "whats up!"
                 });
@@ -239,7 +231,7 @@ describe('New API Key Utils Tests', function () {
 
                 var request = {
                     header: function (name) {
-                        if(name=='Authorization') {
+                        if (name == 'Authorization') {
                             return "a_pee_eye_key " + publicKey + ":" + hmacHash;
                         } else {
                             return null;
@@ -265,12 +257,12 @@ describe('New API Key Utils Tests', function () {
                 var methodToCall = function () {
                 };
 
-                apiKeyUtils.performAuthCheck(request, response, params, methodToCall, keyAgreement.entity1, callback);
+                apiKeyUtils.performAuthCheck(request, response, params, methodToCall, callback);
             });
         });
         it("should allow access if the hmac hashes match", function (done) {
 
-            apiKeyUtils.createKeyAgreement('server','client', function(keyAgreement) {
+            apiKeyUtils.createKeyAgreement(function (keyAgreement) {
 
                 var data = JSON.stringify({
                     "message": "whats up!"
@@ -289,7 +281,7 @@ describe('New API Key Utils Tests', function () {
 
                 var request = {
                     header: function (name) {
-                        if(name=='Authorization') {
+                        if (name == 'Authorization') {
                             return "a_pee_eye_key " + publicKey + ":" + hmacHash;
                         } else {
                             return null;
@@ -312,10 +304,7 @@ describe('New API Key Utils Tests', function () {
                     done();
                 };
 
-                console.log("\nBitch ass! \n");
-                console.log(keyAgreement);
-
-                apiKeyUtils.performAuthCheck(request, response, params, methodToCall, keyAgreement.entity1, callback);
+                apiKeyUtils.performAuthCheck(request, response, params, methodToCall, callback);
             });
         });
     });

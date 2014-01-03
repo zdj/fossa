@@ -1,0 +1,10 @@
+{
+    "entity1": "server",
+    "entity2": "client",
+    "entity1PublicKey": "dFeoaSzT8q3s5becXqDXzE7f7cDmiRZkLo8RtUXPZAtL7KFkPKxkYP1yEGMEhw3Jt1q8p4tYdsRlMmo/BDgvGw==",
+    "entity1PrivateKey": "VpcI5WaTx4cEuv3lX/HXBYaI88InAMfMIlqEXKFgdAuuWQZvNYx50l+K55OZVp7jOxksEnjA9+gRUmNQhF5gCw==",
+    "entity2PublicKey": "XrpA2D7dJqaftYlqzrhe80UAjkTDb0CN10sSGtNU8q5NrEAfH/jlsmemH0sdITIpWfjWqBUv8Xb0KijKtz/MwQ==",
+    "entity2PrivateKey": "atjECahgh4+5v6bzqE7kwL1od+J+rffbPEsYUcvBceFHfb98H5Ru2JU61cGrYHuj0BpXyTqQ6dWzo+o52pqNQg==",
+    "secret": "XLmTdhpwzcbPVDqyoxkBE72mTNui2njxd/+8FHPPNVhbUBmI2pviL5EvSAC5uVJ41XGrsJm+eBTARe25PfWVzw==",
+    "prime": "owoWJMXQzQ2N/ubp7xeY6bg7qnz481zaF/s78c4I0+1H4w7ovEwrXDDESFJm8QXazrz2asTly+4N5z3LBJk+8w=="
+}
