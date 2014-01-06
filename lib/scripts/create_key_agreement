@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var apiKeyUtils = require('./../utils/new_api_key_utils');
+var apiKeyUtils = require('./../utils/api_key_utils');
 
 var runScript = function (callback) {
     apiKeyUtils.createKeyAgreement('server', 'client', function (keyAgreement) {
