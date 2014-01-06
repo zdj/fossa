@@ -4,6 +4,18 @@ var colors = require('colors');
 var fsExtra = require('fs-extra');
 var apiKeyUtils = require('../lib/utils/api_key_utils');
 
+var response = {
+    set: function(headerName, headerValue) {
+        if(headerName!='Content-Type') {
+            assert(false, "expected to set Content-Type header");
+        } else {
+            if(headerValue!='text/plain') {
+                assert(false, "expected to set Content-Type header value to text/plain but was '" + headerValue + "'");
+            }
+        }
+    }
+};
+
 describe('New API Key Utils Tests', function () {
 
     beforeEach(function (done) {
@@ -51,8 +63,6 @@ describe('New API Key Utils Tests', function () {
                     return "beefaroni";
                 }
             };
-            var response = {
-            };
             var params = {
             };
             var callback = function (req, res, message, statusCode) {
@@ -70,8 +80,6 @@ describe('New API Key Utils Tests', function () {
                     return null;
                 }
             };
-            var response = {
-            };
             var params = {
             };
             var callback = function (req, res, message, statusCode) {
@@ -88,8 +96,6 @@ describe('New API Key Utils Tests', function () {
                 header: function (name) {
                     return " a_pee_eye_key";
                 }
-            };
-            var response = {
             };
             var params = {
                 "apiKey": "a_pee_eye_key"
@@ -109,8 +115,6 @@ describe('New API Key Utils Tests', function () {
                     return "a_pee_eye_key";
                 }
             };
-            var response = {
-            };
             var params = {
                 "apiKey": "a_pee_eye_key"
             };
@@ -128,8 +132,6 @@ describe('New API Key Utils Tests', function () {
                 header: function (name) {
                     return "a_pee_eye_key donkeykong";
                 }
-            };
-            var response = {
             };
             var params = {
                 "apiKey": "a_pee_eye_key"
@@ -150,8 +152,6 @@ describe('New API Key Utils Tests', function () {
                         return "a_pee_eye_key :kong";
                     }
                 };
-                var response = {
-                };
                 var params = {
                     "apiKey": "a_pee_eye_key"
                 };
@@ -171,8 +171,6 @@ describe('New API Key Utils Tests', function () {
                     header: function (name) {
                         return "a_pee_eye_key donkey:";
                     }
-                };
-                var response = {
                 };
                 var params = {
                     "apiKey": "a_pee_eye_key"
@@ -195,8 +193,6 @@ describe('New API Key Utils Tests', function () {
                     header: function (name) {
                         return "a_pee_eye_key donkey:kong";
                     }
-                };
-                var response = {
                 };
                 var params = {
                     "apiKey": "a_pee_eye_key"
@@ -244,8 +240,6 @@ describe('New API Key Utils Tests', function () {
                         "message": "whats up dude!"
                     })
                 };
-                var response = {
-                };
                 var params = {
                     "apiKey": "a_pee_eye_key"
                 };
@@ -291,8 +285,6 @@ describe('New API Key Utils Tests', function () {
                     method: method,
                     url: '/secure/logger',
                     rawBody: data
-                };
-                var response = {
                 };
                 var params = {
                     "apiKey": "a_pee_eye_key"
