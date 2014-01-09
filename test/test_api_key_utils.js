@@ -9,8 +9,8 @@ var response = {
         if(headerName!='Content-Type') {
             assert(false, "expected to set Content-Type header");
         } else {
-            if(headerValue!='text/plain') {
-                assert(false, "expected to set Content-Type header value to text/plain but was '" + headerValue + "'");
+            if(headerValue!='application/json') {
+                assert(false, "expected to set Content-Type header value to application/json but was '" + headerValue + "'");
             }
         }
     }
