@@ -16,6 +16,8 @@ var response = {
     }
 };
 
+var notAuthorizedMessage = JSON.stringify({error:"Not authorized"},null,4);
+
 describe('New API Key Utils Tests', function () {
 
     beforeEach(function (done) {
@@ -67,7 +69,7 @@ describe('New API Key Utils Tests', function () {
             };
             var callback = function (req, res, message, statusCode) {
                 assert.equal(401, statusCode);
-                assert.equal('Not authorized', message);
+                assert.equal(notAuthorizedMessage, message);
                 done();
             };
             var methodToCall = function () {
@@ -84,7 +86,7 @@ describe('New API Key Utils Tests', function () {
             };
             var callback = function (req, res, message, statusCode) {
                 assert.equal(401, statusCode);
-                assert.equal('Not authorized', message);
+                assert.equal(notAuthorizedMessage, message);
                 done();
             };
             var methodToCall = function () {
@@ -102,7 +104,7 @@ describe('New API Key Utils Tests', function () {
             };
             var callback = function (req, res, message, statusCode) {
                 assert.equal(401, statusCode);
-                assert.equal('Not authorized', message);
+                assert.equal(notAuthorizedMessage, message);
                 done();
             };
             var methodToCall = function () {
@@ -120,7 +122,7 @@ describe('New API Key Utils Tests', function () {
             };
             var callback = function (req, res, message, statusCode) {
                 assert.equal(401, statusCode);
-                assert.equal('Not authorized', message);
+                assert.equal(notAuthorizedMessage, message);
                 done();
             };
             var methodToCall = function () {
@@ -138,7 +140,7 @@ describe('New API Key Utils Tests', function () {
             };
             var callback = function (req, res, message, statusCode) {
                 assert.equal(401, statusCode);
-                assert.equal('Not authorized', message);
+                assert.equal(notAuthorizedMessage, message);
                 done();
             };
             var methodToCall = function () {
@@ -157,7 +159,7 @@ describe('New API Key Utils Tests', function () {
                 };
                 var callback = function (req, res, message, statusCode) {
                     assert.equal(401, statusCode);
-                    assert.equal('Not authorized', message);
+                    assert.equal(notAuthorizedMessage, message);
                     done();
                 };
                 var methodToCall = function () {
@@ -177,7 +179,7 @@ describe('New API Key Utils Tests', function () {
                 };
                 var callback = function (req, res, message, statusCode) {
                     assert.equal(401, statusCode);
-                    assert.equal('Not authorized', message);
+                    assert.equal(notAuthorizedMessage, message);
                     done();
                 };
                 var methodToCall = function () {
@@ -199,7 +201,7 @@ describe('New API Key Utils Tests', function () {
                 };
                 var callback = function (req, res, message, statusCode) {
                     assert.equal(401, statusCode);
-                    assert.equal('Not authorized', message);
+                    assert.equal(notAuthorizedMessage, message);
                     done();
                 };
                 var methodToCall = function () {
@@ -245,7 +247,7 @@ describe('New API Key Utils Tests', function () {
                 };
                 var callback = function (req, res, message, statusCode) {
                     assert.equal(401, statusCode);
-                    assert.equal('Not authorized', message);
+                    assert.equal(notAuthorizedMessage, message);
                     done();
                 };
                 var methodToCall = function () {
