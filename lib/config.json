@@ -47,13 +47,35 @@
             }
         },
         {
-            "name": "Secure HTTP service",
-            "description": "An HTTP service that is expecting an Authorization header with an API key",
-            "type": "logger",
+            "name": "Secure echo service",
+            "description": "An ECHO service that is expecting an Authorization header with an API key",
+            "type": "echo",
             "POST": {
-                "path": "/secure/logger",
+                "path": "/secure/echo",
                 "params": {
                     "apiKey": "api_key"
+                }
+            }
+        },
+        {
+            "name": "API Key Client Test Service",
+            "description": "Calls the specified REST service and includes the required API Key header",
+            "type": "api_key_test",
+            "GET": {
+                "path": "/api/key/test",
+                "params": {
+                    "prefix": "http",
+                    "host": "localhost",
+                    "port": 3000,
+                    "resource": "/secure/echo",
+                    "key": "api_key",
+                    "entityName": "client",
+                    "timeout": "2000",
+                    "data": {
+                        "message": "Hello!"
+                    },
+                    "contentType": "application/json",
+                    "method": "POST"
                 }
             }
         },

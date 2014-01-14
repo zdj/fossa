@@ -4,6 +4,8 @@ var http = require('http');
 var path = require('path');
 var fossa = require('./lib/fossa');
 var colors = require('colors');
+var expressWinston = require('express-winston');
+var winston = require('./lib/utils/winston_logger').winston;
 
 var app = express();
 
@@ -27,7 +29,21 @@ app.use(express.favicon());
 app.use(express.logger('dev'));
 app.use(anyBodyParser);
 app.use(express.methodOverride());
+
+app.use(expressWinston.logger({
+    transports: [
+        winston
+    ]
+}));
+
 app.use(app.router);
+
+app.use(expressWinston.errorLogger({
+    transports: [
+        winston
+    ]
+}));
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 // development only

@@ -1,11 +1,11 @@
 {
     "entity1": "server",
     "entity2": "client",
-    "entity1PublicKey": "szUmd4df/ZXHtKgUGnlV9Wt9bMH0fzJnVwTpo4keGk6aHG8PLZ073f6n4R9Kr6gPfxAK5P5Dc7nLGwn3nNFO8A==",
-    "entity1PrivateKey": "bCYOT/fFk/E81Dp3k61ez6DJTVz1dSoDjtUdtrXqmC+D7wHvxjPWVNaAA2byR3G0cuwasBTMrXB5Ouw5F8B0hw==",
-    "entity2PublicKey": "lXe3ecJMyzn0nJi6cHbI7jyckjacBjgQW8615FbnLaRnovxm34H+FSzhdXAAR3zFeklPxzpLy2dGQBoefVUQTQ==",
-    "entity2PrivateKey": "RFET4TseBM0uP+3KjyzsNc6z3JV9xUWrRqF/hsbc0QPCVGOTYHB0eKXALD9aUKjyxtDS2uoYNWI+anAo01ItEw==",
-    "secret": "n4fiCKcU462E32p1Z8oS0uyxCvPo0ZVsuY7blMLbdBJOuf6/fG2l5qkX+yYlGBPfv1lvJkDpcBgPrLjhDY1J/w==",
+    "entity1PublicKey": "0hQ2CG/ntvPGU4KyB3zNmL0hbphkcV4sOcoaQjSfhujPr3mcO3xBmZi3QSXSxMRSc6VkIdYUzA7u3gaNWdqTqQ==",
+    "entity1PrivateKey": "Wp+iEn/7LVUVyL+dy8wwv/kUQZst6MEY9TxJLYloNPHUGbQUpH5Ki/Grpszk92Vj4TwNxcO/+mMUuc+f/tuTcQ==",
+    "entity2PublicKey": "i8wuBVT/pC7nsb0PVg8xk5wV6/zjz/zX6gTI8GBSzAo7gancAlTDfnDbieXzmvStkKXEuaHoiVr1aRHtdXq9UA==",
+    "entity2PrivateKey": "XK44y0gdXsCEZvd/FWvEjHjM3JllzqEdQMDspybfjcZ0u8B6CHzuEcD1LtXhScLaUse5Anep5/+1qpJ0GBWa/g==",
+    "secret": "f/j24SlZPqfe7E1YMFtp9vxVP2en8HFjTSYt5fGloreDEL7vyI+aIdXCPKI4LSag6H8gQHmvW65vomF+7SwjZQ==",
     "generator": "Ag==",
-    "prime": "0OtYEXAlVBdG9VUrGWRG+FqU6nLNkwyvBMVOxau02Hl4Ux8QVutbzeKRb9IzeQ2BVUNpNs5SJGQXhdmY3/8yAw=="
+    "prime": "6pSmepHpSDAvBZZQ4Mf60II1Bk0UVukOpKtc+pOX0CheMdFCiK+nu1o8h9ldbfVdxsB219xgGgUwQToQGDYoqw=="
 }

@@ -4,18 +4,21 @@
   "private": true,
   "scripts": {
     "start": "supervisor -e 'json|js' app.js",
-	"test": "mocha -R tap $(find test -name '*.js')",
+    "test": "mocha -R tap $(find test -name '*api_key_test.js')",
     "createKeyAgreement": "./lib/scripts/create_key_agreement",
-    "testSecurity": "./lib/scripts/test_security api_key"
+    "testSecurity": "./lib/scripts/test_security isSecure.js"
   },
   "dependencies": {
     "express": "*",
     "jade": "*",
     "colors": "*",
-    "mocha": "*", 
-	"underscore": "*",
-	"async": "*",
-	"glob": "*",
-	"fs-extra": "*"
+    "mocha": "*",
+    "underscore": "*",
+    "async": "*",
+    "glob": "*",
+    "fs-extra": "*",
+    "restler": "~3.1.0",
+    "winston": "~0.7.2",
+    "express-winston": "~0.2.1"
   }
 }
