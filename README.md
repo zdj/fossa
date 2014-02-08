@@ -14,89 +14,144 @@ About
 Use Case Examples
 -----
 
-* **Integration Tests**
+ - **Integration Tests**
 
-  Your application may depend on external REST services that are unaccessible in the development environment. You are already mocking the service interface in your unit tests, but you want to add some integration tests that mimic the production environment as much as possible. ***fossa*** allows you to easily provide a REST API that can respond the way your application would expect.
+	  Your application may depend on external REST services that are unaccessible in the development environment. You are already mocking the service interface in your unit tests, but you want to add some integration tests that mimic the production environment as much as possible. ***fossa*** allows you to easily provide a REST API that can respond the way your application would expect.
 
-* **Demos**
+ - **Demos**
 
-  What if you have reached the end of a development sprint and management is requesting a demo, but the REST api or messaging interface your app depends on has not yet been implemented? ***fossa*** can fill this void so that you don't have to build in placeholder logic that you will end up removing.
+	  What if you have reached the end of a development sprint and management is requesting a demo, but the REST api or messaging interface your app depends on has not yet been implemented? ***fossa*** can fill this void so that you don't have to build in placeholder logic that you will end up removing.
 
-  ***fossa*** also can be used to easily script certain aspects of a demo. For example, say that your application process messages delivered on a message queue. You can easily provide a browser-accessible REST service that can send a message to the queue, minimizing the time during a demo that would be wasted switching between the browser and a terminal.
+	  ***fossa*** also can be used to easily script certain aspects of a demo. For example, say that your application process messages delivered on a message queue. You can easily provide a browser-accessible REST service that can send a message to the queue, minimizing the time during a demo that would be wasted switching between the browser and a terminal.
 
-* **REST instead of SSH**
+ - **REST instead of SSH for executing remote tasks**
 
-  How often have you logged into a remote system via SSH just to run a database cleanup script or redeploy an application? Just about anything you can do with a nodejs script can easily be made available via REST and through an internet browser.
+	  How often have you logged into a remote system via SSH just to run a database cleanup script or redeploy an application? Just about anything you can do with a nodejs script can easily be made available via REST and through an internet browser.
 
 Features
 -----
 
-* Several built-in *service types*
+- **Several built-in service types**
 
-  * echo
-  * http
-  * logger
-  * match
-  * redirect
-  * service
-  * AMQP services
+  - echo
+  - http
+  - logger
+  - match
+  - redirect
+  - service
+  - AMQP services
+  
+- **API key authentication**
 
-* HAMC API key based authentication can be added to any service
+  - API key based authentication can be added to any service
+  - Scripts are included for generating key agreements and testing secured services
+  
+- **Easy creation of custom service types**
 
-  Scripts for generating key agreements and testing authenticated services
+  - Adding a new service is as easy as dropping a new file in a directory, and a little knowledge of nodejs and javascript
+  
+- **Multiple configuration files**
+  - Organize and separate services with multiple service configuration files
+  - Automatic detection of new configuration files
 
-Default Configuration
----------------------
+- **HTTP GET, POST, PUT and DELETE support**
 
-The default configuration is preconfigured with some examples for reference.
+- **Multiple configurations of each service type**
 
-Running `npm start` will create the services configured in `lib/configapi_key_test.js`. The predefined services included in this build are located in `lib/services`.
-
-**Service Types**
-
-The following services are included in this build:
-
-*Basic Services Types*
-
-* http
-* echo
-* match
-* redirect
-
-*AMQP Helper Services*
-
-* amqp_user
-* amqp_vhost
-* amqp_vhost_user
-* amqp_exchange
-* amqp_queue
-* amqp_bind
-* amqp_publish
-
-For a detailed description of each serviceapi_key_test.js, including configuration examples, please see the section ***Service Configuration***.
+  - Service configuration files are implemented in a easy-to-read JSON format
 
 Adding Custom Services
 ----------------------
 
-Custom 'services' can be installed by creating or dropping in new javascript files in `lib/services`, and should adhere to the following specification:
+Consider the following example of a new service implementation:
 
-  * HTTP GET, POST, PUT or DELETE services specified in `lib/configapi_key_test.js` must have a corresponding function exported where the function's name is the lowercase HTTP verb *(for HTTP GET, the function name would be 'get')*.
+***lib/services/my_custom_service.js***
 
-  * The function must have the following signature:
+	var get = function(req, res, params, cb) {
+		res.set('Content-Type', params['contentType']);
+    	cb(req, res, params['responseText'], params['statusCode']);
+	};
 
-  		function(req, res, params, cb)
+	exports.get = get;
+	exports.post = get;
+	exports.delete = get;
+	exports.put = get;
 
-  * The callback provided to this function does not need to be called, but if called, it should be called like the following:
+The JSON configuration block for this service might be as follows:
 
-  		cb(req, res, responseMessage, statusCode);
+	...
+	{
+        "name": "My custom service",
+        "description": "An example of a custom service",
+        "type": "my_custom_service",
+        "GET": {
+            "path": "/my_custom_service/hello",
+            "params": {
+				  "response": "Hello!",
+				  "contentType": "text/plain",
+				  "statusCode": 200
+            }
+        },
+        "GET": {
+		     "path": "/my_custom_service/goodbye",
+            "params": {
+				  "response": {
+					  "message": "Goodbye!"
+				  },
+				  "contentType": "application/json",
+				  "statusCode": 200
+            }
+        },
+        "POST": {
+		     "path": "/my_custom_service/hello",
+            "params": {
+				  "response": "Bad request!",
+				  "contentType": "text/plain",
+				  "statusCode": 400
+            }
+        }
+    }
+	...
 
-  	where the *responseMessage* is 	the data to be included in the response body, and the *statusCode* is the HTTP status code to be returned with the response.
+In the above example, the new service is names 'my_custom_service' and the javascript file for this service would be saved in `lib/services/my_custom_Service.js`. The 'type' specified in the service's configuration must always match the root filename.
 
-  * If calling the supplied callback, it is expected fossa will reply with it's standard response, and your 'serviceapi_key_test.js' should not attempt to send the response itself.
+If running on http://localhost:3000, this new service would issue the following responses to its corresponding HTTP calls:
 
-  * Where file file based responses are allowed, response files should go in `lib/files`.
+	Request: http method: GET, url: http://localhost:3000/my_custom_service/hello
 
-Service Configuration
----------------------
+	Response: status: 200, response body: Hello!, content-type: text/plain
+  
 
-***TODO:*** *Add a description and configuration example for each serviceapi_key_test.js type.*
+	Request: http method: GET, url: http://localhost:3000/my_custom_service/goodbye
+
+	Response: status: 200, response body: {"message":"Goodbye!"}, content-type: application/json
+	
+	
+	Request: http method: POST, url: http://localhost:3000/my_custom_service/hello
+
+	Response: status: 400, response body: Bad Request!, content-type: text/plain
+
+
+The schema for a service conjuration file is as follows:
+
+`TODO: Create a schema!`
+
+	{
+		"title": "Fossa configuration file",
+		"type": "object",
+		"properties": {
+			"firstName": {
+				"type": "string"
+			},
+			"lastName": {
+				"type": "string"
+			},
+			"age": {
+				"description": "Age in years",
+				"type": "integer",
+				"minimum": 0
+			}
+		},
+		"required": ["firstName", "lastName"]
+	}
+

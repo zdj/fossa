@@ -104,7 +104,7 @@
         },
         {
             "name": "Exec service",
-            "description": "Execute a command and optionally returns the result as text/plain",
+            "description": "Executes a system command and optionally returns the result as text/plain",
             "type": "exec",
             "GET": {
                 "path": "/exec",
