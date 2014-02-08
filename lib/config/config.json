@@ -103,6 +103,18 @@
             }
         },
         {
+            "name": "Exec service",
+            "description": "Execute a command and returns the result as text/plain",
+            "type": "exec",
+            "GET": {
+                "path": "/exec",
+                "params": {
+                    "command": "echo",
+                    "args": "'Hello!. You just called the exec service!'"
+                }
+            }
+        },
+        {
             "name": "Echo service",
             "description": "Echoes the request body for POST/PUT, and the requested URL for GET/DELETE",
             "type": "echo",

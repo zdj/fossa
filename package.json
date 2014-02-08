@@ -9,16 +9,16 @@
         "testSecurity": "./lib/scripts/test_security isSecure.js"
     },
     "dependencies": {
-        "express": "*",
-        "jade": "*",
-        "colors": "*",
-        "mocha": "*",
-        "underscore": "*",
-        "async": "*",
-        "glob": "*",
-        "fs-extra": "*",
-        "restler": "*",
-        "winston": "*",
-        "express-winston": "*"
+        "express": "3.4.8",
+        "jade": "1.1.5",
+        "colors": "0.6.2",
+        "mocha": "1.17.1",
+        "underscore": "1.5.2",
+        "async": "0.2.10",
+        "glob": "3.2.8",
+        "fs-extra": "0.8.1",
+        "restler": "3.1.0",
+        "winston": "0.7.2",
+        "express-winston": "0.2.1"
     }
 }

@@ -5,3 +5,7 @@
 .navbar-inverse .navbar-form .btn {
     margin-left: 5pt;
 }
+
+.container {
+    background-color: #ab905c;
+}

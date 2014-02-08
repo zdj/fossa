@@ -9,15 +9,30 @@ Installation
 About
 -----
 	
-An integration testing and scripting utility.
+***fossa*** is a integration and test utility for application development. The goal of this package is to provide a convenient, easy-to-configure and easy-to-use utility for simulating external events and services.
 
-The aim of this package is to provide a convenient, easy-to-configure and easy-to-use utility for simulating external events and services.
+Use Case Examples
+-----
 
-**Use Cases**
+* **Integration Tests**
 
-Your application depends on REST services hosted on a server that is unaccessible in the development environment. You have already mocked the serviceapi_key_test.js interface in your unit tests, but you want to write some integration tests that mimic the production environment as much as possible. Fossa allows you to easily configure and launch a REST API that can issue responses that your application would expect.
+  Your application may depend on external REST services that are unaccessible in the development environment. You are already mocking the service interface in your unit tests, but you want to add some integration tests that mimic the production environment as much as possible. ***fossa*** allows you to easily provide a REST API that can respond the way your application would expect.
+  
+* **Demos**
 
-Say you want to demo your progress to the client or management, but the REST api or messaging interface your app requires has not yet been implemented. Fossa can fill this void so that you don't have to build in placeholder logic that you will end up removing.
+  What if you have reached the end of a development sprint and management is requesting a demo, but the REST api or messaging interface your app depends on has not yet been implemented? ***fossa*** can fill this void so that you don't have to build in placeholder logic that you will end up removing.
+  
+  ***fossa*** also can be used to easily script certain aspects of a demo. For example, say that your application process messages delivered on a message queue. You can easily provide a browser-accessible REST service that can send a message to the queue, minimizing the time during a demo that would be wasted switching between the browser and a terminal.
+  
+* **REST instead of SSH**
+
+  How often have you logged into a remote system via SSH just to run a database cleanup script or redeploy an application? Just about anything you can do with a nodejs script can easily be made available via REST and through an internet browser. 
+   
+Features
+-----
+
+* Several built-in REST *service types*
+  * 
 
 Default Configuration
 ---------------------

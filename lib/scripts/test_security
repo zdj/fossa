@@ -13,17 +13,19 @@ if (!apiKeyName) {
 var data = getData();
 var options = getOptions(data);
 
-addAuthorizationHeader(options, data);
-sendRequest(options, data);
+addAuthorizationHeader(options, data, function() {
+    sendRequest(options, data);
+});
 
-function addAuthorizationHeader(options, data) {
+function addAuthorizationHeader(options, data, callback) {
 
     var canonicalizedHeaders = apiKeyUtils.getCanonicalizedHeaders(options.headers);
     var canonicalizedResource = apiKeyUtils.getCanonizalizedResource(options.path);
     var hmac = apiKeyUtils.createHmacHash(data, options.method, options.headers, canonicalizedHeaders, canonicalizedResource);
-    var publicKey = apiKeyUtils.getPublicKey('client');
-
-    options.headers['Authorization'] = apiKeyName + ' ' + publicKey + ':' + hmac;
+    apiKeyUtils.getKeyAgreement('client', function(keyAgreement) {
+        options.headers['Authorization'] = apiKeyName + ' ' + keyAgreement.entity2PublicKey + ':' + hmac;
+        callback();
+    });
 }
 
 function getData() {
