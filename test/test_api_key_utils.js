@@ -272,7 +272,8 @@ describe('New API Key Utils Tests', function () {
 
                 var canonicalizedHeaders = apiKeyUtils.getCanonicalizedHeaders(headers);
                 var canonicalizedResource = apiKeyUtils.getCanonizalizedResource('/secure/logger');
-                var hmacHash = apiKeyUtils.createHmacHash(data, method, canonicalizedHeaders, canonicalizedResource, keyAgreement);
+                var md5Hash = apiKeyUtils.createMd5Hash(data);
+                var hmacHash = apiKeyUtils.createHmacHash(md5Hash, method, canonicalizedHeaders, canonicalizedResource, keyAgreement);
                 var publicKey = keyAgreement.entity2PublicKey;
 
                 var request = {
