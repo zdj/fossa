@@ -109,8 +109,8 @@
             "GET": {
                 "path": "/exec",
                 "params": {
-                    "command": "echo",
-                    "args": "'Hello!. You just called the exec service!'",
+                    "command": "cat",
+                    "args": "lib/config/config.json",
                     "output": true
                 }
             }
