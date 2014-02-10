@@ -2,12 +2,12 @@ fossa
 =====
 
 About
------
+=====
 
 ***[fossa](http://)*** is a integration and test utility for application development. The goal of this package is to provide a convenient, easy-to-configure and easy-to-use utility for simulating external events and services.
 
 Use Case Examples
------------------
+=====
 
  - **Integration Tests**
 
@@ -24,7 +24,7 @@ Use Case Examples
 	  How often have you logged into a remote system via SSH just to run a database cleanup script or redeploy an application? Just about anything you can do with a nodejs script can easily be made available via REST and through an internet browser.
 
 Features
---------
+=====
 
 - **Several built-in service types**
 
@@ -33,7 +33,7 @@ Features
   - logger
   - match
   - redirect
-  - service
+  - exec
   - AMQP services
   
 - **API key authentication**
@@ -56,7 +56,7 @@ Features
   - Service configuration files are implemented in a easy-to-read JSON format
 
 Installation
-------------
+=====
 
 	git clone git@github.com:zdj/fossa.git
 	
@@ -69,21 +69,33 @@ Installation
 After starting fossa you should be able to access configured services at [http://localhost:3000	](http://localhost:3000). Each service's HTTP method, path and configuration is logged to the console for convenience.
 
 Configuration
--------------
+=====
 
-Fossa will load any configuration file in `lib/config` as long as ends with the `.json` suffix. 
+Basic configuration
+-----
 
-Configuration files should follow the following format:[
+***fossa*** will load any file in `lib/config` ending with the `.json` suffix (with the exception of files ending with *sample.json*, which are ignored). 
+
+By default, ***fossa*** loads two example configuration files (`lib/config/config.json` and `lib/config/config_extra.json`). Use these only as a reference and even try out they services they define using a browser (for GET services) or the REST client of your choice. A backup of the example configuration file can be found at `lib/config/config.sample.json`).
+
+Configuration files should follow the following basic format:
 
 	[1..*]
-		name [string] (the name for this service configuration)
-		description [string] (the description of this service configuration)
-  	 	type [string] (the root filename of any service in 'lib/services')
-		GET|POST|PUT|DELETE|ALL [1..*]			
-			
+		[1] name [string] (the name for this service configuration)
+		[1] description [string] (the description of this service configuration)
+  	 	[1] type [string] (the root filename of any service in 'lib/services')
+		[1..*] GET|POST|PUT|DELETE|ALL
+			[1] path [string] (the context path to the service)
+			[1] params
+				[1..*] ? (service type dependent)
+				
+Built-In Service Types
+-----
+				
+***fossa*** has several built-in service types, and number new service types can be added. See the section below entitled "Adding Custom Services".
 
 Adding Custom Services
-----------------------
+=====
 
 Consider the following example of a new service implementation:
 
@@ -107,35 +119,35 @@ The JSON configuration block for this service might be as follows:
         "description": "An example of a custom service",
         "type": "my_custom_service",
         "GET": {
-            "path": "/my_custom_service/hello",
-            "params": {
-				  "response": "Hello!",
-				  "contentType": "text/plain",
-				  "statusCode": 200
+        	"path": "/my_custom_service/hello",
+        	"params": {
+				"response": "Hello!",
+				"contentType": "text/plain",
+				"statusCode": 200
             }
         },
         "GET": {
-		     "path": "/my_custom_service/goodbye",
-            "params": {
-				  "response": {
-					  "message": "Goodbye!"
-				  },
-				  "contentType": "application/json",
-				  "statusCode": 200
-            }
+		 	"path": "/my_custom_service/goodbye",
+			"params": {
+				"response": {
+					"message": "Goodbye!"
+				},
+				"contentType": "application/json",
+				"statusCode": 200
+           }
         },
         "POST": {
-		     "path": "/my_custom_service/hello",
-            "params": {
-				  "response": "Bad request!",
-				  "contentType": "text/plain",
-				  "statusCode": 400
+		 	"path": "/my_custom_service/hello",
+        	"params": {
+				"response": "Bad request!",
+				"contentType": "text/plain",
+				"statusCode": 400
             }
         }
     }
 	...
 
-In the above example, the new service is names 'my_custom_service' and the javascript file for this service would be saved in `lib/services/my_custom_Service.js`. The 'type' specified in the service's configuration must always match the root filename.
+In the above example, the new service is named 'my_custom_service' and the javascript file for this service would be saved as `lib/services/my_custom_Service.js`. The 'type' specified in the service's configuration must always match the root filename.
 
 If running on http://localhost:3000, this new service would issue the following responses to its corresponding HTTP calls:
 
@@ -152,6 +164,3 @@ If running on http://localhost:3000, this new service would issue the following 
 	Request: http method: POST, url: http://localhost:3000/my_custom_service/hello
 
 	Response: status: 400, response body: Bad Request!, content-type: text/plain
-
-
-
