@@ -4,6 +4,8 @@ var apiKeyUtils = require('../utils/api_key_utils');
 var http = require('http');
 require('colors');
 
+var clientEntityName = 'client';
+
 var apiKeyName = process.argv[2];
 if (!apiKeyName) {
     console.log("apiKeyName is a required parameter".red);
@@ -13,18 +15,27 @@ if (!apiKeyName) {
 var data = getData();
 var options = getOptions(data);
 
-addAuthorizationHeader(options, data, function() {
-    sendRequest(options, data);
+addAuthorizationHeader(options, data, function (err) {
+    if (err) {
+        console.error(err);
+    } else {
+        sendRequest(options, data);
+    }
 });
 
 function addAuthorizationHeader(options, data, callback) {
 
-    var canonicalizedHeaders = apiKeyUtils.getCanonicalizedHeaders(options.headers);
-    var canonicalizedResource = apiKeyUtils.getCanonizalizedResource(options.path);
-    var hmac = apiKeyUtils.createHmacHash(data, options.method, options.headers, canonicalizedHeaders, canonicalizedResource);
-    apiKeyUtils.getKeyAgreement('client', function(keyAgreement) {
-        options.headers['Authorization'] = apiKeyName + ' ' + keyAgreement.entity2PublicKey + ':' + hmac;
-        callback();
+    apiKeyUtils.getKeyAgreement(clientEntityName, function (keyAgreement) {
+        if (keyAgreement) {
+            var canonicalizedHeaders = apiKeyUtils.getCanonicalizedHeaders(options.headers);
+            var canonicalizedResource = apiKeyUtils.getCanonizalizedResource(options.path);
+            var md5Data = apiKeyUtils.createMd5Hash(data);
+            var hmac = apiKeyUtils.createHmacHash(md5Data, options.method, canonicalizedHeaders, canonicalizedResource, keyAgreement);
+            options.headers['Authorization'] = apiKeyName + ' ' + keyAgreement.entity2PublicKey + ':' + hmac;
+            callback();
+        } else {
+            callback("Could not find key agreement for entity name: " + clientEntityName);
+        }
     });
 }
 
@@ -38,7 +49,7 @@ function getOptions(data) {
     return {
         hostname: '127.0.0.1',
         port: 3000,
-        path: '/secure/logger?name=value',
+        path: '/secure/echo',
         method: 'POST',
         auth: '',
         headers: {
