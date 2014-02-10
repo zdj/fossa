@@ -33,7 +33,7 @@ Features
   - logger
   - match
   - redirect
-  - service
+  - exec
   - AMQP services
   
 - **API key authentication**
