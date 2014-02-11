@@ -101,7 +101,7 @@ Built-In Service Types
   - **http**
 
   	- ***Description*** - Returns a configured response.
-  	- ***HTTP Methods Supported****: GET,POST,PUT,DELETE
+  	- ***HTTP Methods Supported***: GET,POST,PUT,DELETE
   	- ***Details***: Will return the supplied response (hardcoded or contents of a file) with the supplied status code and headers.
   	- ***Configuration parameters:***
   	  - *response*: any json object or a string
