@@ -17,7 +17,7 @@ Use Case Examples
 
 	  What if you have reached the end of a development sprint and management is requesting a demo, but the REST api or messaging interface your app depends on has not yet been implemented? ***fossa*** can fill this void so that you don't have to build in placeholder logic that you will end up removing.
 
-	  ***fossa*** also can be used to easily script certain aspects of a demo. For example, say that your application process messages delivered on a message queue. You can easily provide a browser-accessible REST service that can send a message to the queue, minimizing the time during a demo that would be wasted switching between the browser and a terminal.
+	  ***fossa*** also can be used to easily script certain aspects of a demo. For example, say that your application processes messages delivered on a message queue. You can easily provide a browser-accessible REST service that can send a message to the queue, minimizing the time during a demo that would be wasted switching between the browser and a terminal.
 
  - **REST instead of SSH for executing remote tasks**
 
@@ -91,8 +91,19 @@ Configuration files should follow the following basic format:
 				
 Built-In Service Types
 -----
+
+**echo**
+
+Description: This service type "echos" back the request that it was sent.
+HTTP Methods Supported: GET,POST,PUT,DELETE
+Details: If the HTTP method used to call the service is a GET or DELETE, the requested URL including query parameters will be returned as text/plain. If the HTTP method used to call the service is a POST or PUT, the request body will be returned as text/plain.
+Configuration parameters: NONE
+
+
 				
 ***fossa*** has several built-in service types, and number new service types can be added. See the section below entitled "Adding Custom Services".
+
+
 
 Adding Custom Services
 =====
