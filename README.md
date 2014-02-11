@@ -91,12 +91,23 @@ Built-In Service Types
 
 ***fossa*** has several built-in service types, and number new service types can be added. See the section below entitled "Adding Custom Services".
 
-**echo**
+  - **echo**
 
-Description: This service type "echos" back the request that it was sent.
-HTTP Methods Supported: GET,POST,PUT,DELETE
-Details: If the HTTP method used to call the service is a GET or DELETE, the requested URL including query parameters will be returned as text/plain. If the HTTP method used to call the service is a POST or PUT, the request body will be returned as text/plain.
-Configuration parameters: NONE
+    - ***Description***: This service type "echos" back the request that it was sent.
+    - ***HTTP Methods Supported***: GET,POST,PUT,DELETE
+    - ***Details***: If the HTTP method used to call the service is a GET or DELETE, the requested URL including query parameters will be returned as text/plain with a 200 status code. If the HTTP method used to call the service is a POST or PUT, the request body will be returned as text/plain with a 200 status code.
+    - ***Configuration parameters:*** NONE
+    
+  - **http**
+
+  	- ***Description*** - Returns a configured response.
+  	- ***HTTP Methods Supported****: GET,POST,PUT,DELETE
+  	- ***Details***: Will return the supplied response (hardcoded or contents of a file) with the supplied status code and headers.
+  	- ***Configuration parameters:***
+  	  - *response*: any json object or a string
+  	  - *file*: can be used in place of *response*. Response files should be put in the `lib/files` folder.
+  	  - *statusCode*: the HTTP status doe to return
+  	  - *headers*: a json object of key/value pairs to return as response headers
 
 Adding Custom Services
 =====
