@@ -68,11 +68,8 @@ Installation
 	
 After starting fossa you should be able to access configured services at [http://localhost:3000	](http://localhost:3000). Each service's HTTP method, path and configuration is logged to the console for convenience.
 
-Configuration
+Basic Configuration
 =====
-
-Basic configuration
------
 
 ***fossa*** will load any file in `lib/config` ending with the `.json` suffix (with the exception of files ending with *sample.json*, which are ignored). 
 
@@ -90,7 +87,9 @@ Configuration files should follow the following basic format:
 				[1..*] ? (service type dependent)
 				
 Built-In Service Types
------
+=====
+
+*fossa* has several built-in service types, and number new service types can be added. See the section below entitled "Adding Custom Services".
 
 **echo**
 
@@ -98,12 +97,6 @@ Description: This service type "echos" back the request that it was sent.
 HTTP Methods Supported: GET,POST,PUT,DELETE
 Details: If the HTTP method used to call the service is a GET or DELETE, the requested URL including query parameters will be returned as text/plain. If the HTTP method used to call the service is a POST or PUT, the request body will be returned as text/plain.
 Configuration parameters: NONE
-
-
-				
-***fossa*** has several built-in service types, and number new service types can be added. See the section below entitled "Adding Custom Services".
-
-
 
 Adding Custom Services
 =====
