@@ -89,7 +89,7 @@ Configuration files should follow the following basic format:
 Built-In Service Types
 =====
 
-*fossa* has several built-in service types, and number new service types can be added. See the section below entitled "Adding Custom Services".
+***fossa*** has several built-in service types, and number new service types can be added. See the section below entitled "Adding Custom Services".
 
 **echo**
 
