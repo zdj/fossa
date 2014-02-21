@@ -17,7 +17,7 @@ Use Case Examples
 
 	  What if you have reached the end of a development sprint and management is requesting a demo, but the REST api or messaging interface your app depends on has not yet been implemented? ***fossa*** can fill this void so that you don't have to build in placeholder logic that you will end up removing.
 
-	  ***fossa*** also can be used to easily script certain aspects of a demo. For example, say that your application process messages delivered on a message queue. You can easily provide a browser-accessible REST service that can send a message to the queue, minimizing the time during a demo that would be wasted switching between the browser and a terminal.
+	  ***fossa*** also can be used to easily script certain aspects of a demo. For example, say that your application processes messages delivered on a message queue. You can easily provide a browser-accessible REST service that can send a message to the queue, minimizing the time during a demo that would be wasted switching between the browser and a terminal.
 
  - **REST instead of SSH for executing remote tasks**
 
@@ -68,11 +68,8 @@ Installation
 	
 After starting fossa you should be able to access configured services at [http://localhost:3000	](http://localhost:3000). Each service's HTTP method, path and configuration is logged to the console for convenience.
 
-Configuration
+Basic Configuration
 =====
-
-Basic configuration
------
 
 ***fossa*** will load any file in `lib/config` ending with the `.json` suffix (with the exception of files ending with *sample.json*, which are ignored). 
 
@@ -90,9 +87,27 @@ Configuration files should follow the following basic format:
 				[1..*] ? (service type dependent)
 				
 Built-In Service Types
------
-				
+=====
+
 ***fossa*** has several built-in service types, and number new service types can be added. See the section below entitled "Adding Custom Services".
+
+  - **echo**
+
+    - ***Description***: This service type "echos" back the request that it was sent.
+    - ***HTTP Methods Supported***: GET,POST,PUT,DELETE
+    - ***Details***: If the HTTP method used to call the service is a GET or DELETE, the requested URL including query parameters will be returned as text/plain with a 200 status code. If the HTTP method used to call the service is a POST or PUT, the request body will be returned as text/plain with a 200 status code.
+    - ***Configuration parameters:*** NONE
+    
+  - **http**
+
+  	- ***Description*** - Returns a configured response.
+  	- ***HTTP Methods Supported***: GET,POST,PUT,DELETE
+  	- ***Details***: Will return the supplied response (hardcoded or contents of a file) with the supplied status code and headers.
+  	- ***Configuration parameters:***
+  	  - *response*: any json object or a string
+  	  - *file*: can be used in place of *response*. Response files should be put in the `lib/files` folder.
+  	  - *statusCode*: the HTTP status doe to return
+  	  - *headers*: a json object of key/value pairs to return as response headers
 
 Adding Custom Services
 =====
