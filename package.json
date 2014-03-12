@@ -4,7 +4,7 @@
     "private": false,
     "scripts": {
         "start": "supervisor -e 'json|js' app.js",
-        "test": "mocha -t 3000 -R tap $(find test -name '*api_key_test.js')",
+        "test": "mocha -t 5000 -R tap $(find test -name '*api_key_test.js')",
         "createKeyAgreement": "./lib/scripts/create_key_agreement",
         "testSecurity": "./lib/scripts/test_security api_key"
     },
