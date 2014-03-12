@@ -1,4 +1,3 @@
-var npid = require('npid');
 var express = require('express');
 var routes = require('./routes');
 var http = require('http');
@@ -7,13 +6,6 @@ var fossa = require('./lib/fossa');
 var colors = require('colors');
 var expressWinston = require('express-winston');
 var winston = require('./lib/utils/winston_logger').winston;
-
-try {
-    npid.create(process.env.HOME + '/fossa.pid');
-} catch (err) {
-    console.log(err);
-    process.exit(1);
-}
 
 var app = express();
 
