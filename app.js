@@ -1,5 +1,6 @@
 var express = require('express');
 var routes = require('./routes');
+var fs = require('fs');
 var http = require('http');
 var path = require('path');
 var fossa = require('./lib/fossa');
@@ -61,4 +62,11 @@ fossa.loadServices(app, function(serviceCount) {
 	server.listen(app.settings.port, function () {
 	    console.log('Fossa Dashboard is running at: ' + ('http://localhost:' + app.settings.port).yellow);
 	});
+});
+
+var fossaDir = process.env['HOME'] + "/.fossa";
+fs.exists(fossaDir, function(exists) {
+    if(!exists) {
+        fs.mkdir(fossaDir);
+    }
 });
